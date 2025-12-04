@@ -218,17 +218,22 @@
 
             <div class="scenario-box" style="margin-bottom: 15px;">
                 <h3>1. Emergency Department Screening</h3>
-                <p>You're working in the ED and need to screen patients for pneumonia. Missing a case could be life-threatening. Using the <strong>"Severe Cases"</strong> scenario, find a threshold that catches at least 95% of pneumonia cases (recall ≥ 95%). What happens to the false positive rate? Would you accept this tradeoff in the ED? Why or why not?</p>
+                <p>You're working in the ED and need to screen patients for pneumonia. Missing a case could be life-threatening. Using the <strong>"Severe Cases"</strong> scenario, what threshold for the AI would you choose?</p>
             </div>
 
             <div class="scenario-box" style="margin-bottom: 15px;">
-                <h3>2. Outpatient Confirmatory Testing</h3>
-                <p>A patient in your clinic has an equivocal chest X-ray. You want to use the AI to confirm pneumonia before starting antibiotics. Using the <strong>"Subtle Cases"</strong> scenario, find a threshold where at least 80% of positive predictions are correct (precision ≥ 80%). What recall do you sacrifice? When might this tradeoff be appropriate?</p>
+                <h3>2. Outpatient Screening Testing</h3>
+                <p>You are trying to screen for patients for pneumonia, and want to make sure you catch as many true positives as possible. Missing a case could endanger a patient, so you don't want many false negatives. Using the <strong>"Subtle Cases"</strong> scenario, where would you set the threshold?</p>
             </div>
 
             <div class="scenario-box" style="margin-bottom: 15px;">
-                <h3>3. Rare Disease Screening Reality Check</h3>
-                <p>Switch to <strong>"Rare Disease"</strong> and observe the AUC (~0.5). Set the threshold to 50%. Look at precision—when the AI says "positive," how often is it right? Now try to improve precision by raising the threshold. What happens to recall? What does this teach you about using AI for rare disease screening?</p>
+                <h3>3. Outpatient Confirmatory Testing</h3>
+                <p>You are trying to screen patients for TB, but treating a patient requires long duration of therapy with medications that have lots of side effects. You want an AI model that minimizes how many people without TB it calls "confirmed cases". Where would you set the threshold, using the <strong>"Subtle Cases"</strong> scenario?</p>
+            </div>
+
+            <div class="scenario-box" style="margin-bottom: 15px;">
+                <h3>4. Rare Disease Screening Reality Check</h3>
+                <p>Switch to <strong>"Rare Disease"</strong> and observe the AUC (~0.5). For a screening test, what would you set the threshold to? Why?</p>
             </div>
         </div>
 
