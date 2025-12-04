@@ -19,6 +19,21 @@
             min-height: 100vh;
         }
 
+        .site-header {
+            background: white;
+            padding: 12px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .site-header a {
+            display: inline-block;
+        }
+
+        .site-header img {
+            max-width: 50%;
+            height: auto;
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -74,6 +89,12 @@
         .subtitle {
             color: #666;
             font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .authors {
+            color: #53565A;
+            font-size: 0.95em;
             margin-bottom: 20px;
         }
 
@@ -496,6 +517,7 @@
             border: 1px solid #e2e8f0;
             border-radius: 8px;
             padding: 8px;
+            margin-bottom: 15px;
         }
 
         .roc-chart canvas {
@@ -514,7 +536,7 @@
 
         .roc-labels .roc-xlabel {
             position: absolute;
-            bottom: -8px;
+            bottom: -20px;
             left: 50%;
             transform: translateX(-50%);
             font-size: 0.7em;
@@ -577,11 +599,17 @@
     </style>
 </head>
 <body>
+    <header class="site-header">
+        <a href="https://med.stanford.edu/ai-in-meded.html" target="_blank">
+            <img src="logo.png" alt="Stanford Medicine - AI in Medical Education">
+        </a>
+    </header>
     <div class="container">
         <!-- Header -->
         <div class="card">
             <h1>Evaluating AI Diagnostic Tools</h1>
             <p class="subtitle">Understanding Confusion Matrices for Clinical Decision-Making</p>
+            <p class="authors">Vishnu Ravi, MD &bull; Aydin Zahedivash, MD &bull; Alaa Youssef, PhD &bull; Gabriel Tse, MD &bull; Jonathan Chen, MD, PhD</p>
 
             <div class="scenario-box">
                 <h3>Why This Matters</h3>
@@ -606,7 +634,7 @@
                     <h4>False Positive (FP)</h4>
                     <p><strong>AI says:</strong> Pneumonia detected<br>
                     <strong>Reality:</strong> Patient is healthy<br>
-                    <em>False alarm — unnecessary follow-up</em></p>
+                    <em>False alarm — unnecessary treatment</em></p>
                 </div>
                 <div class="quadrant-card fn-card">
                     <h4>False Negative (FN)</h4>
@@ -634,12 +662,12 @@
             </div>
 
             <div class="dataset-selector">
-                <button class="dataset-btn active" onclick="setDataset('balanced', this)">Balanced Cases</button>
-                <button class="dataset-btn" onclick="setDataset('separated', this)">Well-Separated</button>
-                <button class="dataset-btn" onclick="setDataset('overlapping', this)">High Overlap</button>
+                <button class="dataset-btn active" onclick="setDataset('separated', this)">Severe Cases</button>
+                <button class="dataset-btn" onclick="setDataset('unseparated', this)">Subtle Cases</button>
+                <button class="dataset-btn" onclick="setDataset('imbalanced', this)">Rare Disease</button>
             </div>
             <div class="dataset-explanation" id="datasetExplanation">
-                A typical clinical scenario with moderate overlap between sick and healthy patients. The AI can distinguish many cases but makes some errors in the middle range.
+                <strong>Severe Cases:</strong> ICU patients with large lobar pneumonia and high fevers. The AI easily distinguishes these obvious cases from healthy patients. This represents ideal conditions — but an AI validated only on severe cases may struggle with your more subtle outpatients.
             </div>
 
             <div class="viz-row">
@@ -834,23 +862,6 @@
     <script>
         // Patient data for different datasets
         const datasets = {
-            balanced: {
-                // 30 pneumonia patients, 70 healthy patients
-                pneumonia: [
-                    15, 22, 28, 35, 38, 42, 45, 48, 52, 55,
-                    58, 61, 64, 67, 70, 73, 75, 78, 80, 82,
-                    84, 86, 88, 90, 91, 93, 94, 95, 96, 97
-                ],
-                healthy: [
-                    3, 5, 8, 10, 12, 14, 16, 18, 20, 22,
-                    24, 26, 28, 30, 32, 34, 36, 38, 40, 42,
-                    44, 45, 46, 48, 50, 51, 52, 54, 55, 56,
-                    58, 59, 60, 61, 62, 63, 64, 65, 66, 67,
-                    68, 69, 70, 71, 72, 73, 74, 75, 76, 77,
-                    78, 79, 80, 81, 82, 83, 84, 85, 86, 87,
-                    5, 10, 15, 20, 25, 30, 35, 40, 45, 50
-                ]
-            },
             separated: {
                 // Clear separation - pneumonia patients have higher scores
                 pneumonia: [
@@ -868,8 +879,8 @@
                     6, 9, 13, 17, 21, 24, 29, 33, 37, 41
                 ]
             },
-            overlapping: {
-                // High overlap - nearly indistinguishable distributions (AUC ~0.55-0.65)
+            unseparated: {
+                // High overlap - nearly indistinguishable distributions
                 pneumonia: [
                     25, 30, 32, 35, 38, 40, 42, 45, 48, 50,
                     52, 55, 58, 60, 62, 65, 68, 70, 72, 75,
@@ -884,10 +895,28 @@
                     32, 38, 44, 50, 56, 62, 68, 72, 75, 78,
                     22, 28, 34, 40, 46, 52, 58, 64, 70, 74
                 ]
+            },
+            imbalanced: {
+                // Few positive cases - only 10 pneumonia patients out of 100
+                // Moderate separation - similar to real clinical scenarios
+                pneumonia: [
+                    45, 52, 58, 63, 68, 72, 76, 80, 85, 90
+                ],
+                healthy: [
+                    5, 8, 12, 15, 18, 22, 25, 28, 32, 35,
+                    10, 14, 18, 22, 26, 30, 34, 38, 42, 46,
+                    15, 20, 25, 30, 35, 40, 45, 50, 55, 60,
+                    12, 17, 22, 27, 32, 37, 42, 47, 52, 57,
+                    8, 13, 18, 23, 28, 33, 38, 43, 48, 53,
+                    6, 11, 16, 21, 26, 31, 36, 41, 46, 51,
+                    10, 15, 20, 25, 30, 35, 40, 45, 50, 55,
+                    7, 12, 17, 22, 27, 32, 37, 42, 47, 52,
+                    9, 14, 19, 24, 29, 34, 39, 44, 49, 54
+                ]
             }
         };
 
-        let currentDataset = 'balanced';
+        let currentDataset = 'separated';
         let threshold = 50;
         let patients = [];
 
@@ -1184,9 +1213,9 @@
         }
 
         const datasetExplanations = {
-            balanced: "A typical clinical scenario with moderate overlap between sick and healthy patients. The AI can distinguish many cases but makes some errors in the middle range.",
-            separated: "An ideal scenario where sick and healthy patients have clearly different scores. The AI performs well, and you can find a threshold with high recall AND low false positive rate.",
-            overlapping: "A challenging scenario where sick and healthy patients have very similar scores. No threshold works well — improving recall significantly increases false positives. Consider whether this AI tool is reliable enough for clinical use."
+            separated: "<strong>Severe Cases:</strong> ICU patients with large lobar pneumonia and high fevers. The AI easily distinguishes these obvious cases from healthy patients. This represents ideal conditions — but an AI validated only on severe cases may struggle with your more subtle outpatients.",
+            unseparated: "<strong>Subtle Cases:</strong> Outpatients with mild cough, low-grade fever, and early infiltrates. The sick and healthy patients look similar to the AI, making classification difficult. This is common in primary care screening where disease presents subtly.",
+            imbalanced: "<strong>Rare Disease:</strong> TB screening in a low-prevalence population — only 10% have the disease. Even with good discrimination, the low prevalence means false positives can outnumber true positives. Pay close attention to precision when screening for rare conditions."
         };
 
         function setDataset(name, btn) {
@@ -1199,7 +1228,7 @@
             if (btn) btn.classList.add('active');
 
             // Update explanation
-            document.getElementById('datasetExplanation').textContent = datasetExplanations[name];
+            document.getElementById('datasetExplanation').innerHTML = datasetExplanations[name];
 
             generatePatients();
             updateVisualization();
