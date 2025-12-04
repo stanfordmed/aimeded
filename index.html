@@ -211,6 +211,27 @@
             </div>
         </div>
 
+        <!-- Try It Yourself -->
+        <div class="card">
+            <h2>Try It Yourself</h2>
+            <p>Use the interactive demo above to explore these clinical scenarios:</p>
+
+            <div class="scenario-box" style="margin-bottom: 15px;">
+                <h3>1. Emergency Department Screening</h3>
+                <p>You're working in the ED and need to screen patients for pneumonia. Missing a case could be life-threatening. Using the <strong>"Severe Cases"</strong> scenario, find a threshold that catches at least 95% of pneumonia cases (recall ≥ 95%). What happens to the false positive rate? Would you accept this tradeoff in the ED? Why or why not?</p>
+            </div>
+
+            <div class="scenario-box" style="margin-bottom: 15px;">
+                <h3>2. Outpatient Confirmatory Testing</h3>
+                <p>A patient in your clinic has an equivocal chest X-ray. You want to use the AI to confirm pneumonia before starting antibiotics. Using the <strong>"Subtle Cases"</strong> scenario, find a threshold where at least 80% of positive predictions are correct (precision ≥ 80%). What recall do you sacrifice? When might this tradeoff be appropriate?</p>
+            </div>
+
+            <div class="scenario-box" style="margin-bottom: 15px;">
+                <h3>3. Rare Disease Screening Reality Check</h3>
+                <p>Switch to <strong>"Rare Disease"</strong> and observe the AUC (~0.5). Set the threshold to 50%. Look at precision—when the AI says "positive," how often is it right? Now try to improve precision by raising the threshold. What happens to recall? What does this teach you about using AI for rare disease screening?</p>
+            </div>
+        </div>
+
         <!-- Understanding Tradeoffs -->
         <div class="card">
             <h2>The Precision-Recall Tradeoff</h2>
