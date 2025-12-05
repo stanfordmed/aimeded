@@ -388,6 +388,16 @@ function setupAccordions() {
     });
 }
 
+// Toggle answer visibility
+function toggleAnswer(btn) {
+    const answerContent = btn.nextElementSibling;
+    const isShowing = answerContent.classList.contains('show');
+
+    answerContent.classList.toggle('show');
+    btn.classList.toggle('active');
+    btn.textContent = isShowing ? 'Show Answer' : 'Hide Answer';
+}
+
 // Initialize on load
 window.addEventListener('DOMContentLoaded', () => {
     init();

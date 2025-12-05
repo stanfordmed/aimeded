@@ -720,3 +720,60 @@ h3 {
         width: 80px;
     }
 }
+
+/* Show/Hide Answer Styles */
+.show-answer-btn {
+    background: white;
+    border: 2px solid #007C92;
+    color: #007C92;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 600;
+    margin-top: 12px;
+    transition: all 0.2s ease;
+}
+
+.show-answer-btn:hover {
+    background: #007C92;
+    color: white;
+}
+
+.show-answer-btn.active {
+    background: #007C92;
+    color: white;
+}
+
+.answer-content {
+    display: none;
+    background: white;
+    border: 2px solid #007C92;
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-top: 12px;
+    animation: fadeIn 0.3s ease;
+}
+
+.answer-content.show {
+    display: block;
+}
+
+.answer-content p {
+    margin-bottom: 10px;
+}
+
+.answer-content p:last-child {
+    margin-bottom: 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
