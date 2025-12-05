@@ -168,6 +168,16 @@ h3 {
     z-index: 50;
     border-radius: 2px;
     box-shadow: 0 0 10px rgba(98, 0, 89, 0.5);
+    animation: pulseGlow 1.5s ease-in-out 3;
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(98, 0, 89, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(98, 0, 89, 0.9), 0 0 40px rgba(98, 0, 89, 0.5);
+    }
 }
 
 .threshold-line::before {
@@ -180,6 +190,7 @@ h3 {
     border-right: 10px solid transparent;
     border-top: 12px solid #620059;
 }
+
 
 .threshold-label {
     position: absolute;
