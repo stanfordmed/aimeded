@@ -83,6 +83,43 @@ body {
     height: auto;
 }
 
+/* Main Learn/Experiment Tabs */
+.main-tabs-nav {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.main-tab-btn {
+    flex: 1;
+    padding: 14px 24px;
+    font-size: 1.1em;
+    font-weight: 600;
+    border: 2px solid #8C1515;
+    background: white;
+    color: #8C1515;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.main-tab-btn:hover {
+    background: #fef5f5;
+}
+
+.main-tab-btn.active {
+    background: #8C1515;
+    color: white;
+}
+
+.main-tab-panel {
+    display: none;
+}
+
+.main-tab-panel.active {
+    display: block;
+}
+
 .site-footer {
     text-align: center;
     padding: 20px;

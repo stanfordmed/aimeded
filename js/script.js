@@ -554,6 +554,24 @@ function setupAccordions() {
     });
 }
 
+// Main Tab functionality (Learn/Experiment)
+function setupMainTabs() {
+    document.querySelectorAll('.main-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabId = btn.dataset.mainTab;
+
+            // Update button states
+            document.querySelectorAll('.main-tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Update panel visibility
+            document.querySelectorAll('.main-tab-panel').forEach(panel => panel.classList.remove('active'));
+            const activePanel = document.querySelector(`.main-tab-panel[data-main-tab="${tabId}"]`);
+            if (activePanel) activePanel.classList.add('active');
+        });
+    });
+}
+
 // Tab functionality
 function switchToTab(tabId) {
     // Update button states
@@ -622,6 +640,7 @@ function dismissMobilePopup() {
 window.addEventListener('DOMContentLoaded', () => {
     init();
     setupAccordions();
+    setupMainTabs();
     setupTabs();
     setupCurveToggle();
     setupPrevalenceSlider();
