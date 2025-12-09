@@ -57,6 +57,7 @@ const datasets = {
 let currentDataset = 'separated';
 let threshold = 50;
 let patients = [];
+let currentPrevalence = 10; // Default prevalence for imbalanced dataset (percentage)
 
 // Initialize
 function init() {
@@ -73,23 +74,54 @@ function generatePatients() {
     patients = [];
     const data = datasets[currentDataset];
 
-    // Add pneumonia patients
-    data.pneumonia.forEach((score, i) => {
-        patients.push({
-            score: score,
-            hasPneumonia: true,
-            yOffset: 20 + (i % 8) * 22 + Math.random() * 10
-        });
-    });
+    if (currentDataset === 'imbalanced') {
+        // For imbalanced dataset, generate patients based on prevalence slider
+        const totalPatients = 100;
+        const numPositive = Math.round(totalPatients * currentPrevalence / 100);
+        const numNegative = totalPatients - numPositive;
 
-    // Add healthy patients
-    data.healthy.forEach((score, i) => {
-        patients.push({
-            score: score,
-            hasPneumonia: false,
-            yOffset: 20 + (i % 8) * 22 + Math.random() * 10
+        // Sample from pneumonia scores (with replacement if needed)
+        const pneumoniaScores = data.pneumonia;
+        for (let i = 0; i < numPositive; i++) {
+            const score = pneumoniaScores[i % pneumoniaScores.length];
+            // Add some variation if we're reusing scores
+            const variation = i >= pneumoniaScores.length ? (Math.random() * 10 - 5) : 0;
+            patients.push({
+                score: Math.max(0, Math.min(100, score + variation)),
+                hasPneumonia: true,
+                yOffset: 20 + (i % 8) * 22 + Math.random() * 10
+            });
+        }
+
+        // Sample from healthy scores (with replacement if needed)
+        const healthyScores = data.healthy;
+        for (let i = 0; i < numNegative; i++) {
+            const score = healthyScores[i % healthyScores.length];
+            patients.push({
+                score: score,
+                hasPneumonia: false,
+                yOffset: 20 + (i % 8) * 22 + Math.random() * 10
+            });
+        }
+    } else {
+        // Add pneumonia patients
+        data.pneumonia.forEach((score, i) => {
+            patients.push({
+                score: score,
+                hasPneumonia: true,
+                yOffset: 20 + (i % 8) * 22 + Math.random() * 10
+            });
         });
-    });
+
+        // Add healthy patients
+        data.healthy.forEach((score, i) => {
+            patients.push({
+                score: score,
+                hasPneumonia: false,
+                yOffset: 20 + (i % 8) * 22 + Math.random() * 10
+            });
+        });
+    }
 
     // Create dots
     patients.forEach((patient, i) => {
@@ -461,11 +493,30 @@ function setupCurveToggle() {
     });
 }
 
-const datasetExplanations = {
-    separated: "<strong>Severe Cases:</strong> X-rays with obvious findings—large lobar consolidations, clear air bronchograms. The AI easily distinguishes these from normal studies.",
-    unseparated: "<strong>Subtle Cases:</strong> X-rays with subtle findings—faint infiltrates, retrocardiac opacities, or patterns that mimic artifact. The AI struggles to distinguish real pathology from noise.",
-    imbalanced: "<strong>Low Prevalence:</strong> Only 10% of patients have pneumonia. Compare to Subtle Cases: similar AUC, but precision is worse at the same threshold. Why? Fewer true positives means false positives dominate."
-};
+function setupPrevalenceSlider() {
+    const slider = document.getElementById('prevalenceSlider');
+    const valueDisplay = document.getElementById('prevalenceValue');
+
+    if (slider && valueDisplay) {
+        slider.addEventListener('input', () => {
+            currentPrevalence = parseInt(slider.value);
+            valueDisplay.textContent = currentPrevalence + '%';
+            // Update explanation to reflect new prevalence
+            document.getElementById('datasetExplanation').innerHTML = getDatasetExplanation('imbalanced');
+            generatePatients();
+            updateVisualization();
+        });
+    }
+}
+
+function getDatasetExplanation(name) {
+    const explanations = {
+        separated: "<strong>Severe Cases:</strong> X-rays with obvious findings—large lobar consolidations, clear air bronchograms. The AI easily distinguishes these from normal studies.",
+        unseparated: "<strong>Subtle Cases:</strong> X-rays with subtle findings—faint infiltrates, retrocardiac opacities, or patterns that mimic artifact. The AI struggles to distinguish real pathology from noise.",
+        imbalanced: `<strong>Low Prevalence:</strong> Only ${currentPrevalence}% of patients have pneumonia. Compare to Subtle Cases: similar AUC, but precision is worse at the same threshold. Why? Fewer true positives means false positives dominate.`
+    };
+    return explanations[name];
+}
 
 function setDataset(name, btn) {
     currentDataset = name;
@@ -477,7 +528,13 @@ function setDataset(name, btn) {
     if (btn) btn.classList.add('active');
 
     // Update explanation
-    document.getElementById('datasetExplanation').innerHTML = datasetExplanations[name];
+    document.getElementById('datasetExplanation').innerHTML = getDatasetExplanation(name);
+
+    // Show/hide prevalence slider for imbalanced dataset
+    const sliderContainer = document.getElementById('prevalenceSliderContainer');
+    if (sliderContainer) {
+        sliderContainer.style.display = name === 'imbalanced' ? 'block' : 'none';
+    }
 
     generatePatients();
     updateVisualization();
@@ -546,10 +603,27 @@ function toggleAnswer(btn) {
     btn.textContent = isShowing ? 'Show Answer' : 'Hide Answer';
 }
 
+// Mobile popup
+function checkMobileAndShowPopup() {
+    const isMobile = window.innerWidth < 768;
+    const dismissed = sessionStorage.getItem('mobilePopupDismissed');
+
+    if (isMobile && !dismissed) {
+        document.getElementById('mobilePopup').classList.add('show');
+    }
+}
+
+function dismissMobilePopup() {
+    document.getElementById('mobilePopup').classList.remove('show');
+    sessionStorage.setItem('mobilePopupDismissed', 'true');
+}
+
 // Initialize on load
 window.addEventListener('DOMContentLoaded', () => {
     init();
     setupAccordions();
     setupTabs();
     setupCurveToggle();
+    setupPrevalenceSlider();
+    checkMobileAndShowPopup();
 });

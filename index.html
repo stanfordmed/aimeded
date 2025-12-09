@@ -3,10 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Understanding AI Diagnostic Tools: Confusion Matrix</title>
+    <title>Explore AI Diagnostic Performance</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+    <!-- Mobile Warning Popup -->
+    <div class="mobile-popup-overlay" id="mobilePopup">
+        <div class="mobile-popup">
+            <h3>Best Viewed on a Larger Screen</h3>
+            <p>This interactive tutorial works best on a tablet or desktop. Some features may be difficult to use on a small screen.</p>
+            <button class="mobile-popup-btn" onclick="dismissMobilePopup()">Continue Anyway</button>
+        </div>
+    </div>
+
     <header class="site-header">
         <a href="https://med.stanford.edu/ai-in-meded.html" target="_blank">
             <img src="assets/logo.png" alt="Stanford Medicine - AI in Medical Education">
@@ -15,7 +24,7 @@
     <div class="container">
         <!-- Header -->
         <div class="card">
-            <h1>Evaluating AI Diagnostic Tools</h1>
+            <h1>Explore AI Diagnostic Performance</h1>
              <p class="authors">Vishnu Ravi, MD &bull; Alaa Youssef, PhD &bull; Aydin Zahedivash, MD &bull; Gabriel Tse, MD &bull; Jonathan Chen, MD, PhD</p>
 
             <div class="scenario-box">
@@ -40,6 +49,12 @@
                     </div>
                     <div class="dataset-explanation" id="datasetExplanation">
                         <strong>Severe Cases:</strong> ICU patients with large lobar pneumonia and high fevers. The AI easily distinguishes these obvious cases from healthy patients. This represents ideal conditions — but an AI validated only on severe cases may struggle with your more subtle outpatients.
+                    </div>
+                    <div class="prevalence-slider-container" id="prevalenceSliderContainer" style="display: none;">
+                        <label class="prevalence-label">
+                            <span>Disease Prevalence: <strong id="prevalenceValue">10%</strong></span>
+                            <input type="range" id="prevalenceSlider" min="5" max="50" value="10" class="prevalence-slider">
+                        </label>
                     </div>
                     <div class="threshold-viz-container">
                         <div class="distribution-chart" id="distributionChart">
