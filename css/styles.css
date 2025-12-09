@@ -620,7 +620,7 @@ h3 {
 
 .tab-btn {
     flex: 1;
-    padding: 14px 16px;
+    padding: 18px 20px;
     border: none;
     background: transparent;
     cursor: pointer;
@@ -628,22 +628,8 @@ h3 {
     transition: all 0.2s ease;
     border-bottom: 3px solid transparent;
     margin-bottom: -2px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 2px;
-}
-
-.tab-title {
-    font-size: 1em;
+    font-size: 1.1em;
     font-weight: 600;
-}
-
-.tab-subtitle {
-    font-size: 0.75em;
-    font-weight: 400;
-    opacity: 0.7;
 }
 
 .tab-btn:hover {
@@ -655,10 +641,6 @@ h3 {
     background: white;
     color: #8C1515;
     border-bottom-color: #8C1515;
-}
-
-.tab-btn.active .tab-subtitle {
-    opacity: 0.8;
 }
 
 .tab-panel {

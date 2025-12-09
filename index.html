@@ -29,7 +29,7 @@
         <div class="card">
             <h2>Interactive: Explore AI Diagnostic Performance</h2>
 
-            <p style="margin-bottom: 25px;">This is a <strong>binary classifier</strong>—it predicts pneumonia vs. no pneumonia. The AI assigns each X-ray a <strong>confidence score</strong> (0-100%) indicating how likely pneumonia is present. A <strong>threshold</strong> determines the cutoff: scores above the threshold are flagged as "Pneumonia Detected." Drag the threshold line to see how the metrics change. Try three different scenarios to see how AI performance changes based on case difficulty and prevalence.</p>
+            <p style="margin-bottom: 25px;">Each dot represents a patient's chest X-ray. The AI assigns a <strong>confidence score</strong> (0-100%) for pneumonia. <strong>Drag the purple threshold line</strong> to set the cutoff. Patients scoring above the threshold (to its right) are flagged as "Pneumonia Detected." Watch how the confusion matrix and metrics change as you move the threshold. Try the three dataset buttons to see how AI performance differs with obvious vs. subtle cases, and high vs. low disease prevalence.</p>
 
             <div class="viz-row">
                 <div class="viz-left">
@@ -164,22 +164,10 @@
         <!-- Tabbed Educational Content -->
         <div class="tabs-container">
             <div class="tabs-nav">
-                <button class="tab-btn active" data-tab="terms">
-                    <span class="tab-title">The 4 Outcomes</span>
-                    <span class="tab-subtitle">TP, FP, TN, FN explained</span>
-                </button>
-                <button class="tab-btn" data-tab="metrics">
-                    <span class="tab-title">Key Metrics</span>
-                    <span class="tab-subtitle">What each number means</span>
-                </button>
-                <button class="tab-btn" data-tab="tradeoffs">
-                    <span class="tab-title">Threshold Tradeoffs</span>
-                    <span class="tab-subtitle">Why you can't have it all</span>
-                </button>
-                <button class="tab-btn" data-tab="scenarios">
-                    <span class="tab-title">Try It Yourself</span>
-                    <span class="tab-subtitle">3 clinical scenarios</span>
-                </button>
+                <button class="tab-btn active" data-tab="terms">The 4 Outcomes</button>
+                <button class="tab-btn" data-tab="metrics">Key Metrics</button>
+                <button class="tab-btn" data-tab="tradeoffs">Threshold Tradeoffs</button>
+                <button class="tab-btn" data-tab="scenarios">Try It Yourself</button>
             </div>
 
             <!-- Confusion Matrix Explanation -->
