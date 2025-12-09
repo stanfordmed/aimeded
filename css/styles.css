@@ -83,6 +83,26 @@ body {
     height: auto;
 }
 
+.site-footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.site-footer a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 0.9em;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.site-footer a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
 .container {
     max-width: 1400px;
     margin: 0 auto;
