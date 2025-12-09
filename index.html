@@ -130,8 +130,14 @@
                     <!-- ROC/PR Curve -->
                     <div class="curve-container">
                         <div class="curve-toggle">
-                            <button class="curve-toggle-btn active" data-curve="roc">ROC Curve</button>
-                            <button class="curve-toggle-btn" data-curve="pr">PR Curve</button>
+                            <button class="curve-toggle-btn active" data-curve="roc">
+                                ROC Curve
+                                <span class="curve-btn-tooltip">Plots recall vs. false positive rate across thresholds. The diagonal represents random guessing.</span>
+                            </button>
+                            <button class="curve-toggle-btn" data-curve="pr">
+                                PR Curve
+                                <span class="curve-btn-tooltip">Plots precision vs. recall across thresholds. More informative than ROC when disease prevalence is low.</span>
+                            </button>
                         </div>
                         <div class="curve-chart">
                             <canvas id="curveCanvas" width="300" height="240"></canvas>
@@ -140,7 +146,10 @@
                                 <span class="curve-xlabel" id="curveXLabel">False Positive Rate</span>
                             </div>
                         </div>
-                        <div class="auc-display">AUC: <span id="aucValue">0.85</span></div>
+                        <div class="auc-display">
+                            AUC: <span id="aucValue">0.85</span>
+                            <span class="auc-tooltip">Area Under the Curve: The probability that a randomly chosen patient with pneumonia scores higher than a randomly chosen healthy patient. 1.0 = perfect separation, 0.5 = random guessing.</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -163,7 +172,8 @@
                     <div class="metric-name">False Positive Rate</div>
                     <div class="metric-value" id="fpr">14%</div>
                     <div class="metric-formula">FP / (FP+TN)</div>
-                    <div class="metric-tooltip">The proportion of healthy patients incorrectly flagged as positive. A high FPR leads to unnecessary follow-up tests, anxiety, and costs.</div>
+                    <div class="metric-secondary">Specificity: <span id="specificity">86%</span></div>
+                    <div class="metric-tooltip">The proportion of healthy patients incorrectly flagged as positive. A high FPR leads to unnecessary follow-up tests, anxiety, and costs. Specificity (1 − FPR) is the proportion correctly identified as healthy.</div>
                 </div>
                 <div class="metric-card" id="precisionCard">
                     <div class="metric-name">Precision (PPV)</div>
@@ -176,6 +186,12 @@
                     <div class="metric-value" id="f1">77%</div>
                     <div class="metric-formula">2·P·R / (P+R)</div>
                     <div class="metric-tooltip">The harmonic mean of precision and recall. Useful when you need a single metric that balances catching cases (recall) with avoiding false alarms (precision).</div>
+                </div>
+                <div class="metric-card" id="npvCard">
+                    <div class="metric-name">NPV</div>
+                    <div class="metric-value" id="npv">92%</div>
+                    <div class="metric-formula">TN / (TN+FN)</div>
+                    <div class="metric-tooltip">Negative Predictive Value: If the AI says "no pneumonia," how likely is the patient actually healthy? Complements PPV/Precision.</div>
                 </div>
             </div>
 
@@ -335,6 +351,11 @@
                                 <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>F1 Score</strong></td>
                                 <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">Overall balance between precision and recall (harmonic mean)</td>
                                 <td style="padding: 12px; border-bottom: 1px solid #e2e8f0; font-family: monospace;">2·P·R / (P + R)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>NPV</strong><br><span style="color: #718096; font-size: 0.85em;">(Negative Predictive Value)</span></td>
+                                <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">If AI says "no pneumonia," how likely is the patient actually healthy?</td>
+                                <td style="padding: 12px; border-bottom: 1px solid #e2e8f0; font-family: monospace;">TN / (TN + FN)</td>
                             </tr>
                         </tbody>
                     </table>

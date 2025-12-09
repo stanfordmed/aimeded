@@ -463,8 +463,8 @@ h3 {
 /* Metrics Display */
 .metrics-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
     margin: 25px 0;
 }
 
@@ -503,6 +503,12 @@ h3 {
     color: #a0aec0;
     margin-top: 5px;
     font-family: monospace;
+}
+
+.metric-card .metric-secondary {
+    font-size: 0.75em;
+    color: #718096;
+    margin-top: 4px;
 }
 
 .metric-card .metric-tooltip {
@@ -793,6 +799,47 @@ h3 {
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
+.curve-toggle-btn {
+    position: relative;
+}
+
+.curve-btn-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2d3748;
+    color: white;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 0.75em;
+    font-weight: normal;
+    line-height: 1.4;
+    width: 200px;
+    text-align: left;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    pointer-events: none;
+}
+
+.curve-btn-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #2d3748;
+}
+
+.curve-toggle-btn:hover .curve-btn-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
 .curve-chart {
     position: relative;
     display: inline-block;
@@ -827,14 +874,54 @@ h3 {
 }
 
 .auc-display {
+    position: relative;
+    display: inline-block;
     margin-top: 8px;
     font-size: 0.85em;
     color: #53565A;
+    cursor: help;
 }
 
-.auc-display span {
+.auc-display #aucValue {
     font-weight: bold;
     color: #8C1515;
+}
+
+.auc-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2d3748;
+    color: white;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 0.85em;
+    font-weight: normal;
+    line-height: 1.4;
+    width: 240px;
+    text-align: left;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    pointer-events: none;
+}
+
+.auc-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #2d3748;
+}
+
+.auc-display:hover .auc-tooltip {
+    opacity: 1;
+    visibility: visible;
 }
 
 /* Tabs Styles */
@@ -985,6 +1072,12 @@ h3 {
     .viz-right {
         flex: 1;
         width: 100%;
+    }
+}
+
+@media (max-width: 1100px) {
+    .metrics-grid {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
