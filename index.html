@@ -151,26 +151,31 @@
                     <div class="metric-name">Accuracy</div>
                     <div class="metric-value" id="accuracy">85%</div>
                     <div class="metric-formula">(TP+TN) / Total</div>
+                    <div class="metric-tooltip">The proportion of all predictions that were correct. While intuitive, accuracy can be misleading when disease prevalence is low.</div>
                 </div>
                 <div class="metric-card" id="recallCard">
                     <div class="metric-name">Recall (Sensitivity)</div>
                     <div class="metric-value" id="recall">83%</div>
                     <div class="metric-formula">TP / (TP+FN)</div>
+                    <div class="metric-tooltip">The proportion of actual positive cases correctly identified. High recall means fewer missed diagnoses—critical when missing a disease is dangerous.</div>
                 </div>
                 <div class="metric-card" id="fprCard">
                     <div class="metric-name">False Positive Rate</div>
                     <div class="metric-value" id="fpr">14%</div>
                     <div class="metric-formula">FP / (FP+TN)</div>
+                    <div class="metric-tooltip">The proportion of healthy patients incorrectly flagged as positive. A high FPR leads to unnecessary follow-up tests, anxiety, and costs.</div>
                 </div>
                 <div class="metric-card" id="precisionCard">
                     <div class="metric-name">Precision (PPV)</div>
                     <div class="metric-value" id="precision">71%</div>
                     <div class="metric-formula">TP / (TP+FP)</div>
+                    <div class="metric-tooltip">The proportion of positive predictions that were actually correct. Answers: "If the AI flags a patient, how likely are they to actually have the disease?"</div>
                 </div>
                 <div class="metric-card" id="f1Card">
                     <div class="metric-name">F1 Score</div>
                     <div class="metric-value" id="f1">77%</div>
                     <div class="metric-formula">2·P·R / (P+R)</div>
+                    <div class="metric-tooltip">The harmonic mean of precision and recall. Useful when you need a single metric that balances catching cases (recall) with avoiding false alarms (precision).</div>
                 </div>
             </div>
 
