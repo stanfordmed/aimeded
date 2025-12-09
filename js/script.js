@@ -226,7 +226,6 @@ function updateVisualization() {
     const accuracy = total > 0 ? ((tp + tn) / total * 100) : 0;
     const recall = tp + fn > 0 ? (tp / (tp + fn) * 100) : 0;
     const fpr = fp + tn > 0 ? (fp / (fp + tn) * 100) : 0;
-    const specificity = 100 - fpr;
     const precision = tp + fp > 0 ? (tp / (tp + fp) * 100) : 0;
     const npv = tn + fn > 0 ? (tn / (tn + fn) * 100) : 0;
     const f1 = (precision + recall) > 0 ? (2 * precision * recall / (precision + recall)) : 0;
@@ -234,7 +233,6 @@ function updateVisualization() {
     document.getElementById('accuracy').textContent = accuracy.toFixed(0) + '%';
     document.getElementById('recall').textContent = recall.toFixed(0) + '%';
     document.getElementById('fpr').textContent = fpr.toFixed(0) + '%';
-    document.getElementById('specificity').textContent = specificity.toFixed(0) + '%';
     document.getElementById('precision').textContent = precision.toFixed(0) + '%';
     document.getElementById('npv').textContent = npv.toFixed(0) + '%';
     document.getElementById('f1').textContent = f1.toFixed(0) + '%';
@@ -243,6 +241,7 @@ function updateVisualization() {
     document.getElementById('accuracyText').textContent = accuracy.toFixed(0) + '%';
     document.getElementById('recallText').textContent = recall.toFixed(0) + '%';
     document.getElementById('fprText').textContent = fpr.toFixed(0) + '%';
+    document.getElementById('npvText').textContent = npv.toFixed(0) + '%';
 
     // Highlight metrics that changed significantly
     highlightMetric('recallCard', recall);
