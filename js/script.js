@@ -388,6 +388,45 @@ function setupAccordions() {
     });
 }
 
+// Tab functionality
+function switchToTab(tabId) {
+    // Update button states
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    const activeBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+    if (activeBtn) activeBtn.classList.add('active');
+
+    // Update panel visibility
+    document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+    const activePanel = document.querySelector(`.tab-panel[data-tab="${tabId}"]`);
+    if (activePanel) activePanel.classList.add('active');
+}
+
+function setupTabs() {
+    // Desktop tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            switchToTab(btn.dataset.tab);
+        });
+    });
+
+    // Mobile accordion headers
+    document.querySelectorAll('.tab-accordion-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const panel = header.closest('.tab-panel');
+            const tabId = panel.dataset.tab;
+            const isActive = panel.classList.contains('active');
+
+            if (isActive) {
+                // Close if already open (mobile accordion behavior)
+                panel.classList.remove('active');
+            } else {
+                // Open this tab (syncs both tabs and accordion)
+                switchToTab(tabId);
+            }
+        });
+    });
+}
+
 // Toggle answer visibility
 function toggleAnswer(btn) {
     const answerContent = btn.nextElementSibling;
@@ -402,4 +441,5 @@ function toggleAnswer(btn) {
 window.addEventListener('DOMContentLoaded', () => {
     init();
     setupAccordions();
+    setupTabs();
 });

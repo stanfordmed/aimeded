@@ -161,173 +161,214 @@
             </div>
         </div>
 
-        <!-- Collapsible Sections -->
-
-        <!-- What do these terms mean? -->
-        <div class="accordion">
-            <div class="accordion-header">
-                <h2>What do these terms mean?</h2>
-                <span class="accordion-icon">+</span>
+        <!-- Tabbed Educational Content -->
+        <div class="tabs-container">
+            <div class="tabs-nav">
+                <button class="tab-btn active" data-tab="terms">
+                    <span class="tab-title">The 4 Outcomes</span>
+                    <span class="tab-subtitle">TP, FP, TN, FN explained</span>
+                </button>
+                <button class="tab-btn" data-tab="metrics">
+                    <span class="tab-title">Key Metrics</span>
+                    <span class="tab-subtitle">What each number means</span>
+                </button>
+                <button class="tab-btn" data-tab="tradeoffs">
+                    <span class="tab-title">Threshold Tradeoffs</span>
+                    <span class="tab-subtitle">Why you can't have it all</span>
+                </button>
+                <button class="tab-btn" data-tab="scenarios">
+                    <span class="tab-title">Try It Yourself</span>
+                    <span class="tab-subtitle">3 clinical scenarios</span>
+                </button>
             </div>
-            <div class="accordion-content">
-                <p>When an AI tool makes a prediction, there are four possible outcomes based on whether the prediction was correct and what the actual condition is:</p>
 
-                <div class="quadrant-grid-container">
-                    <div class="quadrant-labels-top">
-                        <div></div>
-                        <div>AI: Pneumonia</div>
-                        <div>AI: No Pneumonia</div>
+            <!-- Confusion Matrix Explanation -->
+            <div class="tab-panel active" data-tab="terms">
+                <div class="tab-accordion-header">
+                    <div class="tab-accordion-title">
+                        <span class="tab-title">The 4 Outcomes</span>
+                        <span class="tab-subtitle">TP, FP, TN, FN explained</span>
                     </div>
-                    <div class="quadrant-row">
-                        <div class="quadrant-row-label">Actually Has<br>Pneumonia</div>
-                        <div class="quadrant-card tp-card">
-                            <h4>True Positive (TP)</h4>
-                            <p><strong>AI says:</strong> Pneumonia detected<br>
-                            <strong>Reality:</strong> Patient has pneumonia<br>
-                            <em>Correct alert — patient receives treatment</em></p>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="tab-content">
+                    <p>When an AI tool makes a prediction, there are four possible outcomes based on whether the prediction was correct and what the actual condition is:</p>
+
+                    <div class="quadrant-grid-container">
+                        <div class="quadrant-labels-top">
+                            <div></div>
+                            <div>AI: Pneumonia</div>
+                            <div>AI: No Pneumonia</div>
                         </div>
-                        <div class="quadrant-card fn-card">
-                            <h4>False Negative (FN)</h4>
-                            <p><strong>AI says:</strong> No pneumonia<br>
-                            <strong>Reality:</strong> Patient has pneumonia<br>
-                            <em>Missed case — delayed treatment</em></p>
+                        <div class="quadrant-row">
+                            <div class="quadrant-row-label">Actually Has<br>Pneumonia</div>
+                            <div class="quadrant-card tp-card">
+                                <h4>True Positive (TP)</h4>
+                                <p><strong>AI says:</strong> Pneumonia detected<br>
+                                <strong>Reality:</strong> Patient has pneumonia<br>
+                                <em>Correct alert — patient receives treatment</em></p>
+                            </div>
+                            <div class="quadrant-card fn-card">
+                                <h4>False Negative (FN)</h4>
+                                <p><strong>AI says:</strong> No pneumonia<br>
+                                <strong>Reality:</strong> Patient has pneumonia<br>
+                                <em>Missed case — delayed treatment</em></p>
+                            </div>
+                        </div>
+                        <div class="quadrant-row">
+                            <div class="quadrant-row-label">Actually<br>Healthy</div>
+                            <div class="quadrant-card fp-card">
+                                <h4>False Positive (FP)</h4>
+                                <p><strong>AI says:</strong> Pneumonia detected<br>
+                                <strong>Reality:</strong> Patient is healthy<br>
+                                <em>False alarm — unnecessary treatment</em></p>
+                            </div>
+                            <div class="quadrant-card tn-card">
+                                <h4>True Negative (TN)</h4>
+                                <p><strong>AI says:</strong> No pneumonia<br>
+                                <strong>Reality:</strong> Patient is healthy<br>
+                                <em>Correct clearance — patient reassured</em></p>
+                            </div>
                         </div>
                     </div>
-                    <div class="quadrant-row">
-                        <div class="quadrant-row-label">Actually<br>Healthy</div>
-                        <div class="quadrant-card fp-card">
-                            <h4>False Positive (FP)</h4>
-                            <p><strong>AI says:</strong> Pneumonia detected<br>
-                            <strong>Reality:</strong> Patient is healthy<br>
-                            <em>False alarm — unnecessary treatment</em></p>
+                </div>
+            </div>
+
+            <!-- Key Metrics -->
+            <div class="tab-panel" data-tab="metrics">
+                <div class="tab-accordion-header">
+                    <div class="tab-accordion-title">
+                        <span class="tab-title">Key Metrics</span>
+                        <span class="tab-subtitle">What each number means</span>
+                    </div>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="tab-content">
+                    <p>These metrics help you evaluate how well the AI performs:</p>
+                    <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                        <thead>
+                            <tr style="background: #edf2f7;">
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #cbd5e0;">Metric</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #cbd5e0;">Question It Answers</th>
+                                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #cbd5e0;">Formula</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Accuracy</strong></td>
+                                <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">Of all cases, how many did the AI classify correctly?</td>
+                                <td style="padding: 12px; border-bottom: 1px solid #e2e8f0; font-family: monospace;">(TP + TN) / Total</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Recall</strong><br><span style="color: #718096; font-size: 0.85em;">(Sensitivity, TPR)</span></td>
+                                <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">Of all patients WITH pneumonia, how many did the AI catch?</td>
+                                <td style="padding: 12px; border-bottom: 1px solid #e2e8f0; font-family: monospace;">TP / (TP + FN)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>False Positive Rate</strong><br><span style="color: #718096; font-size: 0.85em;">(FPR)</span></td>
+                                <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">Of all HEALTHY patients, how many did the AI incorrectly flag?</td>
+                                <td style="padding: 12px; border-bottom: 1px solid #e2e8f0; font-family: monospace;">FP / (FP + TN)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Precision</strong><br><span style="color: #718096; font-size: 0.85em;">(PPV)</span></td>
+                                <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">If AI says "pneumonia," how likely is it actually pneumonia?</td>
+                                <td style="padding: 12px; border-bottom: 1px solid #e2e8f0; font-family: monospace;">TP / (TP + FP)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>F1 Score</strong></td>
+                                <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">Overall balance between precision and recall (harmonic mean)</td>
+                                <td style="padding: 12px; border-bottom: 1px solid #e2e8f0; font-family: monospace;">2·P·R / (P + R)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Understanding Tradeoffs -->
+            <div class="tab-panel" data-tab="tradeoffs">
+                <div class="tab-accordion-header">
+                    <div class="tab-accordion-title">
+                        <span class="tab-title">Threshold Tradeoffs</span>
+                        <span class="tab-subtitle">Why you can't have it all</span>
+                    </div>
+                    <span class="accordion-icon">+</span>
+                </div>
+                <div class="tab-content">
+                    <p>Notice what happens when you move the threshold:</p>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                        <div style="background: #e8f4f2; padding: 20px; border-radius: 10px; border-left: 4px solid #175E54;">
+                            <h3 style="color: #175E54; margin-bottom: 10px;">Lower Threshold (←)</h3>
+                            <ul style="margin-left: 20px; color: #175E54;">
+                                <li>More cases flagged as positive</li>
+                                <li><strong>Higher recall</strong> — catch more true pneumonia</li>
+                                <li><strong>Higher false positive rate</strong> — more false alarms</li>
+                                <li>Fewer missed cases, more unnecessary workup</li>
+                            </ul>
                         </div>
-                        <div class="quadrant-card tn-card">
-                            <h4>True Negative (TN)</h4>
-                            <p><strong>AI says:</strong> No pneumonia<br>
-                            <strong>Reality:</strong> Patient is healthy<br>
-                            <em>Correct clearance — patient reassured</em></p>
+                        <div style="background: #fef5f5; padding: 20px; border-radius: 10px; border-left: 4px solid #8C1515;">
+                            <h3 style="color: #8C1515; margin-bottom: 10px;">Higher Threshold (→)</h3>
+                            <ul style="margin-left: 20px; color: #820000;">
+                                <li>Fewer cases flagged as positive</li>
+                                <li><strong>Lower recall</strong> — miss more true pneumonia</li>
+                                <li><strong>Lower false positive rate</strong> — fewer false alarms</li>
+                                <li>More missed cases, less unnecessary workup</li>
+                            </ul>
                         </div>
                     </div>
-                </div>
 
-                <h3 style="margin-top: 30px;">Key Metrics</h3>
-                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
-                    <thead>
-                        <tr style="background: #edf2f7;">
-                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #cbd5e0;">Metric</th>
-                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #cbd5e0;">Question It Answers</th>
-                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #cbd5e0;">Formula</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Accuracy</strong></td>
-                            <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">Of all cases, how many did the AI classify correctly?</td>
-                            <td style="padding: 12px; border-bottom: 1px solid #e2e8f0; font-family: monospace;">(TP + TN) / Total</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Recall</strong><br><span style="color: #718096; font-size: 0.85em;">(Sensitivity, TPR)</span></td>
-                            <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">Of all patients WITH pneumonia, how many did the AI catch?</td>
-                            <td style="padding: 12px; border-bottom: 1px solid #e2e8f0; font-family: monospace;">TP / (TP + FN)</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>False Positive Rate</strong><br><span style="color: #718096; font-size: 0.85em;">(FPR)</span></td>
-                            <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">Of all HEALTHY patients, how many did the AI incorrectly flag?</td>
-                            <td style="padding: 12px; border-bottom: 1px solid #e2e8f0; font-family: monospace;">FP / (FP + TN)</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Precision</strong><br><span style="color: #718096; font-size: 0.85em;">(PPV)</span></td>
-                            <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">If AI says "pneumonia," how likely is it actually pneumonia?</td>
-                            <td style="padding: 12px; border-bottom: 1px solid #e2e8f0; font-family: monospace;">TP / (TP + FP)</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>F1 Score</strong></td>
-                            <td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">Overall balance between precision and recall (harmonic mean)</td>
-                            <td style="padding: 12px; border-bottom: 1px solid #e2e8f0; font-family: monospace;">2·P·R / (P + R)</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Understanding Tradeoffs -->
-        <div class="accordion">
-            <div class="accordion-header">
-                <h2>Understanding the Tradeoffs</h2>
-                <span class="accordion-icon">+</span>
-            </div>
-            <div class="accordion-content">
-                <p>Notice what happens when you move the threshold:</p>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
-                    <div style="background: #e8f4f2; padding: 20px; border-radius: 10px; border-left: 4px solid #175E54;">
-                        <h3 style="color: #175E54; margin-bottom: 10px;">Lower Threshold (←)</h3>
-                        <ul style="margin-left: 20px; color: #175E54;">
-                            <li>More cases flagged as positive</li>
-                            <li><strong>Higher recall</strong> — catch more true pneumonia</li>
-                            <li><strong>Higher false positive rate</strong> — more false alarms</li>
-                            <li>Fewer missed cases, more unnecessary workup</li>
-                        </ul>
-                    </div>
-                    <div style="background: #fef5f5; padding: 20px; border-radius: 10px; border-left: 4px solid #8C1515;">
-                        <h3 style="color: #8C1515; margin-bottom: 10px;">Higher Threshold (→)</h3>
-                        <ul style="margin-left: 20px; color: #820000;">
-                            <li>Fewer cases flagged as positive</li>
-                            <li><strong>Lower recall</strong> — miss more true pneumonia</li>
-                            <li><strong>Lower false positive rate</strong> — fewer false alarms</li>
-                            <li>More missed cases, less unnecessary workup</li>
-                        </ul>
+                    <div class="scenario-box">
+                        <h3>Clinical Context Matters</h3>
+                        <p><strong>Emergency screening:</strong> Use a lower threshold. Missing pneumonia in a sick patient (false negative) is dangerous. Accept more false positives that can be ruled out with further testing.</p>
+                        <p style="margin-top: 10px;"><strong>Confirmatory testing:</strong> Use a higher threshold. You want high confidence before initiating aggressive treatment. False positives lead to unnecessary interventions.</p>
                     </div>
                 </div>
-
-                <div class="scenario-box">
-                    <h3>Clinical Context Matters</h3>
-                    <p><strong>Emergency screening:</strong> Use a lower threshold. Missing pneumonia in a sick patient (false negative) is dangerous. Accept more false positives that can be ruled out with further testing.</p>
-                    <p style="margin-top: 10px;"><strong>Confirmatory testing:</strong> Use a higher threshold. You want high confidence before initiating aggressive treatment. False positives lead to unnecessary interventions.</p>
-                </div>
             </div>
-        </div>
 
-        <!-- Clinical Scenarios -->
-        <div class="accordion">
-            <div class="accordion-header">
-                <h2>Clinical Scenarios to Try</h2>
-                <span class="accordion-icon">+</span>
-            </div>
-            <div class="accordion-content">
-                <p>Use the interactive demo above to explore these clinical scenarios:</p>
-
-                <div class="scenario-box" style="margin-bottom: 15px;">
-                    <h3>1. Screening</h3>
-                    <p>You don't want to send anyone with pneumonia home from the ED. Using <strong>"Severe Cases"</strong>, where would you set the threshold?</p>
-                    <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Answer</button>
-                    <div class="answer-content">
-                        <p><strong>Set a low threshold (~20-30%).</strong></p>
-                        <p>For screening, you want <strong>high recall/sensitivity</strong>—catching as many true pneumonia cases as possible. Missing a case (false negative) could mean sending a sick patient home untreated.</p>
-                        <p>The tradeoff: More false positives, meaning more healthy patients get flagged. But in the ED, it's safer to do additional testing on a false alarm than to miss real pneumonia.</p>
+            <!-- Clinical Scenarios -->
+            <div class="tab-panel" data-tab="scenarios">
+                <div class="tab-accordion-header">
+                    <div class="tab-accordion-title">
+                        <span class="tab-title">Try It Yourself</span>
+                        <span class="tab-subtitle">3 clinical scenarios</span>
                     </div>
+                    <span class="accordion-icon">+</span>
                 </div>
+                <div class="tab-content">
+                    <p>Use the interactive visualization above to explore these clinical scenarios:</p>
 
-                <div class="scenario-box" style="margin-bottom: 15px;">
-                    <h3>2. Confirmatory</h3>
-                    <p>You want to avoid unnecessary antibiotics and further workup. Using <strong>"Subtle Cases"</strong>, where would you set the threshold?</p>
-                    <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Answer</button>
-                    <div class="answer-content">
-                        <p><strong>Set a high threshold (~70-80%).</strong></p>
-                        <p>For confirmatory testing, you want <strong>high precision (PPV)</strong>—when the AI says "pneumonia," you want to be confident it's correct before starting treatment.</p>
-                        <p>The tradeoff: Lower recall (sensitivity) means you'll miss some cases. But if you're using this as a confirmatory test, patients who test negative can still be evaluated clinically or with other tests.</p>
+                    <div class="scenario-box" style="margin-bottom: 15px;">
+                        <h3>1. Screening</h3>
+                        <p>You don't want to send anyone with pneumonia home from the ED. Using <strong>"Severe Cases"</strong>, where would you set the threshold?</p>
+                        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Answer</button>
+                        <div class="answer-content">
+                            <p><strong>Set a low threshold (~20-30%).</strong></p>
+                            <p>For screening, you want <strong>high recall/sensitivity</strong>—catching as many true pneumonia cases as possible. Missing a case (false negative) could mean sending a sick patient home untreated.</p>
+                            <p>The tradeoff: More false positives, meaning more healthy patients get flagged. But in the ED, it's safer to do additional testing on a false alarm than to miss real pneumonia.</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="scenario-box" style="margin-bottom: 15px;">
-                    <h3>3. Low Prevalence</h3>
-                    <p>Set the threshold to 50% in <strong>"Subtle Cases"</strong>, note the precision. Now switch to <strong>"Low Prevalence"</strong> at the same threshold. What happened to precision, and why?</p>
-                    <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Answer</button>
-                    <div class="answer-content">
-                        <p><strong>Precision drops significantly</strong> (from ~50% to ~20-30%).</p>
-                        <p>This is the <strong>Bayesian insight</strong>: even with the same AI accuracy (similar AUC), precision depends on prevalence. When disease is rare, false positives outnumber true positives.</p>
-                        <p>At 50% threshold in "Subtle Cases" (30% prevalence), a positive result might be ~50% likely to be true. In "Low Prevalence" (10% prevalence), that same positive result might only be ~25% likely to be true—because there are so few actual cases to find.</p>
-                        <p><strong>Clinical implication:</strong> An AI validated in a high-prevalence ICU population may have poor precision when deployed in a low-prevalence outpatient clinic, even if the underlying discrimination is identical.</p>
+                    <div class="scenario-box" style="margin-bottom: 15px;">
+                        <h3>2. Confirmatory</h3>
+                        <p>You want to avoid unnecessary antibiotics and further workup. Using <strong>"Subtle Cases"</strong>, where would you set the threshold?</p>
+                        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Answer</button>
+                        <div class="answer-content">
+                            <p><strong>Set a high threshold (~70-80%).</strong></p>
+                            <p>For confirmatory testing, you want <strong>high precision (PPV)</strong>—when the AI says "pneumonia," you want to be confident it's correct before starting treatment.</p>
+                            <p>The tradeoff: Lower recall (sensitivity) means you'll miss some cases. But if you're using this as a confirmatory test, patients who test negative can still be evaluated clinically or with other tests.</p>
+                        </div>
+                    </div>
+
+                    <div class="scenario-box" style="margin-bottom: 15px;">
+                        <h3>3. Low Prevalence</h3>
+                        <p>Set the threshold to 50% in <strong>"Subtle Cases"</strong>, note the precision. Now switch to <strong>"Low Prevalence"</strong> at the same threshold. What happened to precision, and why?</p>
+                        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Answer</button>
+                        <div class="answer-content">
+                            <p><strong>Precision drops significantly</strong> (from ~50% to ~20-30%).</p>
+                            <p>This is the <strong>Bayesian insight</strong>: even with the same AI accuracy (similar AUC), precision depends on prevalence. When disease is rare, false positives outnumber true positives.</p>
+                            <p>At 50% threshold in "Subtle Cases" (30% prevalence), a positive result might be ~50% likely to be true. In "Low Prevalence" (10% prevalence), that same positive result might only be ~25% likely to be true—because there are so few actual cases to find.</p>
+                            <p><strong>Clinical implication:</strong> An AI validated in a high-prevalence ICU population may have poor precision when deployed in a low-prevalence outpatient clinic, even if the underlying discrimination is identical.</p>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -604,7 +604,90 @@ h3 {
     color: #8C1515;
 }
 
-/* Accordion Styles */
+/* Tabs Styles */
+.tabs-container {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+
+.tabs-nav {
+    display: flex;
+    background: #f7fafc;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 14px 16px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #4a5568;
+    transition: all 0.2s ease;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 2px;
+}
+
+.tab-title {
+    font-size: 1em;
+    font-weight: 600;
+}
+
+.tab-subtitle {
+    font-size: 0.75em;
+    font-weight: 400;
+    opacity: 0.7;
+}
+
+.tab-btn:hover {
+    background: #edf2f7;
+    color: #8C1515;
+}
+
+.tab-btn.active {
+    background: white;
+    color: #8C1515;
+    border-bottom-color: #8C1515;
+}
+
+.tab-btn.active .tab-subtitle {
+    opacity: 0.8;
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+.tab-accordion-header {
+    display: none;
+}
+
+.tab-content {
+    display: block;
+    padding: 25px 30px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Accordion Styles (keeping for potential future use) */
 .accordion {
     margin-bottom: 12px;
 }
@@ -718,6 +801,82 @@ h3 {
 
     .matrix-row-label {
         width: 80px;
+    }
+
+    /* Switch to accordion on mobile */
+    .tabs-nav {
+        display: none;
+    }
+
+    .tabs-container {
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .tab-panel {
+        display: block;
+        background: white;
+        border-radius: 10px;
+        margin-bottom: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        overflow: hidden;
+    }
+
+    .tab-accordion-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px;
+        cursor: pointer;
+        background: #f7fafc;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s ease;
+    }
+
+    .tab-accordion-header:hover {
+        background: #edf2f7;
+    }
+
+    .tab-panel.active .tab-accordion-header {
+        background: white;
+        border-bottom-color: #e2e8f0;
+    }
+
+    .tab-accordion-title {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .tab-accordion-header .tab-title {
+        font-size: 1em;
+        font-weight: 600;
+        color: #2e2d29;
+    }
+
+    .tab-accordion-header .tab-subtitle {
+        font-size: 0.8em;
+        color: #718096;
+    }
+
+    .tab-accordion-header .accordion-icon {
+        font-size: 1.4em;
+        color: #8C1515;
+        font-weight: bold;
+        transition: transform 0.3s ease;
+    }
+
+    .tab-panel.active .tab-accordion-header .accordion-icon {
+        transform: rotate(45deg);
+    }
+
+    .tab-content {
+        display: none;
+        padding: 20px 15px;
+    }
+
+    .tab-panel.active .tab-content {
+        display: block;
     }
 }
 
