@@ -548,19 +548,43 @@ h3 {
     color: #8C1515;
 }
 
-/* ROC Curve */
-.roc-container {
+/* ROC/PR Curve */
+.curve-container {
     margin-top: 20px;
     text-align: right;
 }
 
-.roc-container h4 {
-    color: #2e2d29;
-    margin-bottom: 8px;
-    font-size: 0.95em;
+.curve-toggle {
+    display: inline-flex;
+    background: #e2e8f0;
+    border-radius: 6px;
+    padding: 3px;
+    margin-bottom: 10px;
 }
 
-.roc-chart {
+.curve-toggle-btn {
+    padding: 6px 12px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 0.8em;
+    font-weight: 600;
+    color: #4a5568;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.curve-toggle-btn:hover {
+    color: #2d3748;
+}
+
+.curve-toggle-btn.active {
+    background: white;
+    color: #8C1515;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.curve-chart {
     position: relative;
     display: inline-block;
     background: white;
@@ -570,11 +594,11 @@ h3 {
     margin-bottom: 15px;
 }
 
-.roc-chart canvas {
+.curve-chart canvas {
     display: block;
 }
 
-.roc-labels .roc-ylabel {
+.curve-labels .curve-ylabel {
     position: absolute;
     left: -70px;
     top: 50%;
@@ -584,7 +608,7 @@ h3 {
     white-space: nowrap;
 }
 
-.roc-labels .roc-xlabel {
+.curve-labels .curve-xlabel {
     position: absolute;
     bottom: -20px;
     left: 50%;

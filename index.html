@@ -107,14 +107,17 @@
                         </div>
                     </div>
 
-                    <!-- ROC Curve -->
-                    <div class="roc-container">
-                        <h4>ROC Curve</h4>
-                        <div class="roc-chart">
-                            <canvas id="rocCanvas" width="300" height="240"></canvas>
-                            <div class="roc-labels">
-                                <span class="roc-ylabel">Recall (TPR)</span>
-                                <span class="roc-xlabel">False Positive Rate</span>
+                    <!-- ROC/PR Curve -->
+                    <div class="curve-container">
+                        <div class="curve-toggle">
+                            <button class="curve-toggle-btn active" data-curve="roc">ROC Curve</button>
+                            <button class="curve-toggle-btn" data-curve="pr">PR Curve</button>
+                        </div>
+                        <div class="curve-chart">
+                            <canvas id="curveCanvas" width="300" height="240"></canvas>
+                            <div class="curve-labels">
+                                <span class="curve-ylabel" id="curveYLabel">Recall (TPR)</span>
+                                <span class="curve-xlabel" id="curveXLabel">False Positive Rate</span>
                             </div>
                         </div>
                         <div class="auc-display">AUC: <span id="aucValue">0.85</span></div>

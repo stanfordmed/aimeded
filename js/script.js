@@ -212,8 +212,8 @@ function updateVisualization() {
     highlightMetric('recallCard', recall);
     highlightMetric('precisionCard', precision);
 
-    // Update ROC curve
-    drawROCCurve(fpr / 100, recall / 100);
+    // Update curve (ROC or PR)
+    drawCurve(fpr / 100, recall / 100, precision / 100, recall / 100);
 }
 
 function highlightMetric(cardId, value) {
@@ -222,6 +222,8 @@ function highlightMetric(cardId, value) {
     // Add highlight animation
     setTimeout(() => card.classList.add('highlight'), 10);
 }
+
+let currentCurveType = 'roc';
 
 function calculateROCPoints() {
     const points = [];
@@ -244,8 +246,36 @@ function calculateROCPoints() {
     return points;
 }
 
+function calculatePRPoints() {
+    const points = [];
+    const totalPositive = patients.filter(p => p.hasPneumonia).length;
+
+    // Calculate Precision and Recall for thresholds from 100 down to 0
+    // This gives us points from high precision/low recall to low precision/high recall
+    for (let t = 100; t >= 0; t -= 1) {
+        let tp = 0, fp = 0;
+        patients.forEach(patient => {
+            if (patient.score >= t) {
+                if (patient.hasPneumonia) tp++;
+                else fp++;
+            }
+        });
+        const recall = totalPositive > 0 ? tp / totalPositive : 0;
+        const precision = (tp + fp) > 0 ? tp / (tp + fp) : 1;
+        points.push({ recall, precision, threshold: t });
+    }
+
+    // Apply interpolation: for each point, precision should be the max precision
+    // at that recall or any higher recall (standard PR curve interpolation)
+    for (let i = points.length - 2; i >= 0; i--) {
+        points[i].precision = Math.max(points[i].precision, points[i + 1].precision);
+    }
+
+    return points;
+}
+
 function calculateAUC(points) {
-    // Sort by FPR
+    // Sort by FPR for ROC
     const sorted = [...points].sort((a, b) => a.fpr - b.fpr);
     let auc = 0;
     for (let i = 1; i < sorted.length; i++) {
@@ -256,8 +286,20 @@ function calculateAUC(points) {
     return auc;
 }
 
-function drawROCCurve(currentFPR, currentTPR) {
-    const canvas = document.getElementById('rocCanvas');
+function calculateAUCPR(points) {
+    // Sort by recall for PR curve
+    const sorted = [...points].sort((a, b) => a.recall - b.recall);
+    let auc = 0;
+    for (let i = 1; i < sorted.length; i++) {
+        const width = sorted[i].recall - sorted[i-1].recall;
+        const avgHeight = (sorted[i].precision + sorted[i-1].precision) / 2;
+        auc += width * avgHeight;
+    }
+    return auc;
+}
+
+function drawCurve(currentFPR, currentTPR, currentPrecision, currentRecall) {
+    const canvas = document.getElementById('curveCanvas');
     const ctx = canvas.getContext('2d');
     const width = canvas.width;
     const height = canvas.height;
@@ -272,13 +314,22 @@ function drawROCCurve(currentFPR, currentTPR) {
     ctx.fillStyle = '#f7fafc';
     ctx.fillRect(padding, padding, plotWidth, plotHeight);
 
-    // Draw diagonal (random classifier)
+    // Draw reference line
     ctx.strokeStyle = '#cbd5e0';
     ctx.lineWidth = 1;
     ctx.setLineDash([5, 5]);
     ctx.beginPath();
-    ctx.moveTo(padding, height - padding);
-    ctx.lineTo(width - padding, padding);
+    if (currentCurveType === 'roc') {
+        // Diagonal for ROC (random classifier)
+        ctx.moveTo(padding, height - padding);
+        ctx.lineTo(width - padding, padding);
+    } else {
+        // Horizontal line at baseline prevalence for PR
+        const prevalence = patients.filter(p => p.hasPneumonia).length / patients.length;
+        const baselineY = height - padding - prevalence * plotHeight;
+        ctx.moveTo(padding, baselineY);
+        ctx.lineTo(width - padding, baselineY);
+    }
     ctx.stroke();
     ctx.setLineDash([]);
 
@@ -317,30 +368,59 @@ function drawROCCurve(currentFPR, currentTPR) {
         ctx.textAlign = 'center';
     }
 
-    // Calculate and draw ROC curve
-    const rocPoints = calculateROCPoints();
-    const auc = calculateAUC(rocPoints);
+    // Calculate and draw curve
+    let auc;
+    let curvePoints;
+    let currentX, currentY;
+
+    if (currentCurveType === 'roc') {
+        curvePoints = calculateROCPoints();
+        auc = calculateAUC(curvePoints);
+        curvePoints.sort((a, b) => a.fpr - b.fpr);
+
+        // Draw ROC curve
+        ctx.strokeStyle = '#8C1515';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        curvePoints.forEach((point, i) => {
+            const x = padding + point.fpr * plotWidth;
+            const y = height - padding - point.tpr * plotHeight;
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+
+        currentX = padding + currentFPR * plotWidth;
+        currentY = height - padding - currentTPR * plotHeight;
+    } else {
+        curvePoints = calculatePRPoints();
+        auc = calculateAUCPR(curvePoints);
+        // Points are already in order from calculatePRPoints (no sorting needed)
+
+        // Draw PR curve
+        ctx.strokeStyle = '#8C1515';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        let isFirst = true;
+        curvePoints.forEach((point) => {
+            const x = padding + point.recall * plotWidth;
+            const y = height - padding - point.precision * plotHeight;
+            if (isFirst) {
+                ctx.moveTo(x, y);
+                isFirst = false;
+            } else {
+                ctx.lineTo(x, y);
+            }
+        });
+        ctx.stroke();
+
+        currentX = padding + currentRecall * plotWidth;
+        currentY = height - padding - currentPrecision * plotHeight;
+    }
+
     document.getElementById('aucValue').textContent = auc.toFixed(2);
 
-    // Sort points by FPR for proper curve drawing
-    rocPoints.sort((a, b) => a.fpr - b.fpr);
-
-    // Draw ROC curve
-    ctx.strokeStyle = '#8C1515';
-    ctx.lineWidth = 2.5;
-    ctx.beginPath();
-    rocPoints.forEach((point, i) => {
-        const x = padding + point.fpr * plotWidth;
-        const y = height - padding - point.tpr * plotHeight;
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-    });
-    ctx.stroke();
-
     // Draw current operating point
-    const currentX = padding + currentFPR * plotWidth;
-    const currentY = height - padding - currentTPR * plotHeight;
-
     ctx.fillStyle = '#620059';
     ctx.beginPath();
     ctx.arc(currentX, currentY, 8, 0, Math.PI * 2);
@@ -350,6 +430,35 @@ function drawROCCurve(currentFPR, currentTPR) {
     ctx.beginPath();
     ctx.arc(currentX, currentY, 4, 0, Math.PI * 2);
     ctx.fill();
+}
+
+function updateCurveLabels() {
+    const yLabel = document.getElementById('curveYLabel');
+    const xLabel = document.getElementById('curveXLabel');
+
+    if (currentCurveType === 'roc') {
+        yLabel.textContent = 'Recall (TPR)';
+        xLabel.textContent = 'False Positive Rate';
+    } else {
+        yLabel.textContent = 'Precision (PPV)';
+        xLabel.textContent = 'Recall (Sensitivity)';
+    }
+}
+
+function setupCurveToggle() {
+    document.querySelectorAll('.curve-toggle-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            currentCurveType = btn.dataset.curve;
+
+            // Update button states
+            document.querySelectorAll('.curve-toggle-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Update labels and redraw
+            updateCurveLabels();
+            updateVisualization();
+        });
+    });
 }
 
 const datasetExplanations = {
@@ -442,4 +551,5 @@ window.addEventListener('DOMContentLoaded', () => {
     init();
     setupAccordions();
     setupTabs();
+    setupCurveToggle();
 });
