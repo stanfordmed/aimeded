@@ -183,6 +183,46 @@
                 </p>
             </div>
             </div>
+
+            <!-- Try It Yourself -->
+            <div class="card">
+                <h2>Try It Yourself</h2>
+                <p style="margin-bottom: 20px;">Use the interactive visualization above to explore these clinical scenarios:</p>
+
+                <div class="scenario-box" style="margin-bottom: 15px;">
+                    <h3>1. Screening</h3>
+                    <p>You don't want to send anyone with pneumonia home from the ED. Using <strong>"Severe Cases"</strong>, where would you set the threshold?</p>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Answer</button>
+                    <div class="answer-content">
+                        <p><strong>Set a low threshold (~20-30%).</strong></p>
+                        <p>For screening, you want <strong>high recall/sensitivity</strong>—catching as many true pneumonia cases as possible. Missing a case (false negative) could mean sending a sick patient home untreated.</p>
+                        <p>The tradeoff: More false positives, meaning more healthy patients get flagged. But in the ED, it's safer to do additional testing on a false alarm than to miss real pneumonia.</p>
+                    </div>
+                </div>
+
+                <div class="scenario-box" style="margin-bottom: 15px;">
+                    <h3>2. Confirmatory</h3>
+                    <p>You want to avoid unnecessary antibiotics and further workup. Using <strong>"Subtle Cases"</strong>, where would you set the threshold?</p>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Answer</button>
+                    <div class="answer-content">
+                        <p><strong>Set a high threshold (~70-80%).</strong></p>
+                        <p>For confirmatory testing, you want <strong>high precision (PPV)</strong>—when the AI says "pneumonia," you want to be confident it's correct before starting treatment.</p>
+                        <p>The tradeoff: Lower recall (sensitivity) means you'll miss some cases. But if you're using this as a confirmatory test, patients who test negative can still be evaluated clinically or with other tests.</p>
+                    </div>
+                </div>
+
+                <div class="scenario-box" style="margin-bottom: 15px;">
+                    <h3>3. Low Prevalence</h3>
+                    <p>Set the threshold to 50% in <strong>"Subtle Cases"</strong>, note the precision. Now switch to <strong>"Low Prevalence"</strong> at the same threshold. What happened to precision, and why?</p>
+                    <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Answer</button>
+                    <div class="answer-content">
+                        <p><strong>Precision drops significantly</strong> (from ~50% to ~20-30%).</p>
+                        <p>This is the <strong>Bayesian insight</strong>: even with the same AI accuracy (similar AUC), precision depends on prevalence. When disease is rare, false positives outnumber true positives.</p>
+                        <p>At 50% threshold in "Subtle Cases" (30% prevalence), a positive result might be ~50% likely to be true. In "Low Prevalence" (10% prevalence), that same positive result might only be ~25% likely to be true—because there are so few actual cases to find.</p>
+                        <p><strong>Clinical implication:</strong> An AI validated in a high-prevalence ICU population may have poor precision when deployed in a low-prevalence outpatient clinic, even if the underlying discrimination is identical.</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Learn Tab Content -->
@@ -192,7 +232,6 @@
                 <button class="tab-btn active" data-tab="terms">The 4 Outcomes</button>
                 <button class="tab-btn" data-tab="metrics">Key Metrics</button>
                 <button class="tab-btn" data-tab="tradeoffs">Threshold Tradeoffs</button>
-                <button class="tab-btn" data-tab="scenarios">Try It Yourself</button>
             </div>
 
             <!-- Confusion Matrix Explanation -->
@@ -338,53 +377,6 @@
                 </div>
             </div>
 
-            <!-- Clinical Scenarios -->
-            <div class="tab-panel" data-tab="scenarios">
-                <div class="tab-accordion-header">
-                    <div class="tab-accordion-title">
-                        <span class="tab-title">Try It Yourself</span>
-                        <span class="tab-subtitle">3 clinical scenarios</span>
-                    </div>
-                    <span class="accordion-icon">+</span>
-                </div>
-                <div class="tab-content">
-                    <p>Use the interactive visualization above to explore these clinical scenarios:</p>
-
-                    <div class="scenario-box" style="margin-bottom: 15px;">
-                        <h3>1. Screening</h3>
-                        <p>You don't want to send anyone with pneumonia home from the ED. Using <strong>"Severe Cases"</strong>, where would you set the threshold?</p>
-                        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Answer</button>
-                        <div class="answer-content">
-                            <p><strong>Set a low threshold (~20-30%).</strong></p>
-                            <p>For screening, you want <strong>high recall/sensitivity</strong>—catching as many true pneumonia cases as possible. Missing a case (false negative) could mean sending a sick patient home untreated.</p>
-                            <p>The tradeoff: More false positives, meaning more healthy patients get flagged. But in the ED, it's safer to do additional testing on a false alarm than to miss real pneumonia.</p>
-                        </div>
-                    </div>
-
-                    <div class="scenario-box" style="margin-bottom: 15px;">
-                        <h3>2. Confirmatory</h3>
-                        <p>You want to avoid unnecessary antibiotics and further workup. Using <strong>"Subtle Cases"</strong>, where would you set the threshold?</p>
-                        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Answer</button>
-                        <div class="answer-content">
-                            <p><strong>Set a high threshold (~70-80%).</strong></p>
-                            <p>For confirmatory testing, you want <strong>high precision (PPV)</strong>—when the AI says "pneumonia," you want to be confident it's correct before starting treatment.</p>
-                            <p>The tradeoff: Lower recall (sensitivity) means you'll miss some cases. But if you're using this as a confirmatory test, patients who test negative can still be evaluated clinically or with other tests.</p>
-                        </div>
-                    </div>
-
-                    <div class="scenario-box" style="margin-bottom: 15px;">
-                        <h3>3. Low Prevalence</h3>
-                        <p>Set the threshold to 50% in <strong>"Subtle Cases"</strong>, note the precision. Now switch to <strong>"Low Prevalence"</strong> at the same threshold. What happened to precision, and why?</p>
-                        <button class="show-answer-btn" onclick="toggleAnswer(this)">Show Answer</button>
-                        <div class="answer-content">
-                            <p><strong>Precision drops significantly</strong> (from ~50% to ~20-30%).</p>
-                            <p>This is the <strong>Bayesian insight</strong>: even with the same AI accuracy (similar AUC), precision depends on prevalence. When disease is rare, false positives outnumber true positives.</p>
-                            <p>At 50% threshold in "Subtle Cases" (30% prevalence), a positive result might be ~50% likely to be true. In "Low Prevalence" (10% prevalence), that same positive result might only be ~25% likely to be true—because there are so few actual cases to find.</p>
-                            <p><strong>Clinical implication:</strong> An AI validated in a high-prevalence ICU population may have poor precision when deployed in a low-prevalence outpatient clinic, even if the underlying discrimination is identical.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
             </div>
         </div>
 
