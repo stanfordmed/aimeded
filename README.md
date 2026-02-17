@@ -1,40 +1,87 @@
-# Explore AI Diagnostic Performance
+# LLM Training Visualization for Medical Students
 
-An interactive educational tool for teaching clinicians how to interpret AI diagnostic metrics using a chest X-ray pneumonia detection example.
-
-## Overview
-
-This tutorial helps clinicians understand:
-
-- **Confusion Matrix**: True positives, false positives, true negatives, false negatives
-- **Key Metrics**: Sensitivity (recall), specificity, precision (PPV), accuracy, F1 score
-- **ROC and PR Curves**: How threshold selection affects the tradeoff between metrics
-- **Prevalence Effects**: Why the same AI performs differently in high vs. low prevalence settings
+An interactive web application that visualizes how Large Language Models work, specifically designed for medical education. Compare foundation models, fine-tuned medical models, and RAG-based systems.
 
 ## Features
 
-- Interactive threshold slider to explore metric tradeoffs
-- Three clinical scenarios: Severe Cases, Subtle Cases, and Low Prevalence
-- Toggle between ROC and Precision-Recall curves
-- Adjustable prevalence slider to demonstrate Bayesian effects on precision
-- Clinical scenario questions with expandable answers
+- **Three Model Types**:
+  - **Foundation Model**: Standard GPT-4 with general knowledge
+  - **Fine-tuned Medical Model**: Simulated Med-PaLM with specialized medical knowledge
+  - **RAG Model**: Retrieval-Augmented Generation using a medical corpus
 
-## Usage
+- **Interactive Learning**:
+  - Real-time LLM inference with OpenAI API
+  - Medical corpus with 10+ pre-loaded documents
+  - Detailed response metadata (latency, tokens, cost)
+  - Document retrieval visualization for RAG
 
-Open `index.html` in a web browser. No build step or server required.
+- **Educational Focus**:
+  - Clear explanations of each model type
+  - Example medical prompts
+  - Corpus statistics and insights
 
-## Authors
+## Getting Started
 
-- Vishnu Ravi, MD
-- Alaa Youssef, PhD
-- Aydin Zahedivash, MD
-- Gabriel Tse, MD
-- Jonathan Chen, MD, PhD
+### Prerequisites
+
+- Node.js (v18 or higher)
+- An OpenAI API key ([Get one here](https://platform.openai.com/api-keys))
+
+### Installation
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Start the development server:
+```bash
+npm run dev
+```
+
+3. Open your browser to the URL shown (typically http://localhost:5173)
+
+4. Click "Set API Key" in the header and enter your OpenAI API key
+
+### Usage
+
+1. **Set your API key**: Click the "Set API Key" button and enter your OpenAI API key (stored locally in browser)
+
+2. **Select a model type**: Choose between Foundation, Fine-tuned, or RAG model
+
+3. **Ask a question**: Enter a medical question or select an example prompt
+
+4. **View the response**: See the LLM's response with metadata
+
+5. **For RAG**: View which documents were retrieved to answer your question
+
+## Technology Stack
+
+- **Frontend**: React 18 + TypeScript + Vite
+- **Styling**: Tailwind CSS
+- **State**: Zustand + React Query
+- **LLM**: OpenAI API (GPT-4, embeddings)
+
+## API Costs
+
+- GPT-4: ~$0.01-0.03 per request
+- Embeddings: ~$0.00002 per document
+- Typical session: $0.10-0.50
+
+Response caching minimizes redundant API calls.
+
+## Project Structure
+
+```
+src/
+├── components/       # React components
+├── hooks/           # Custom React hooks
+├── stores/          # Zustand state management
+├── services/        # API, embeddings, RAG
+├── types/           # TypeScript definitions
+└── data/            # Medical corpus samples
+```
 
 ## License
 
-Stanford Medicine - AI in Medical Education
-
-## Links
-
-- [AI in Medical Education at Stanford Medicine](https://med.stanford.edu/ai-in-meded.html)
+Educational project. Use responsibly.
