@@ -5,6 +5,9 @@ interface Props {
   scenario: Scenario
   showLeak?: boolean
   onToggleLeak?: () => void
+  interactiveMode?: boolean
+  clickedPhiTargets?: Set<string>
+  onPhiClick?: (elementId: string) => void
 }
 
 function highlightPhi(text: string, segments?: string[]) {
@@ -39,20 +42,31 @@ function highlightPhi(text: string, segments?: string[]) {
   return <>{parts}</>
 }
 
-export default function SecurityDiagram({ scenario, showLeak = false, onToggleLeak }: Props) {
+export default function SecurityDiagram({ scenario, showLeak = false, onToggleLeak, interactiveMode = false, clickedPhiTargets = new Set(), onPhiClick }: Props) {
   const grayed = new Set(scenario.grayedElements)
   const grayStyle = (id: string) => (grayed.has(id) ? { opacity: 0.15, filter: 'grayscale(1)' } : {})
   const arrowColor = scenario.securityOverlay ? '#22c55e' : '#0376bb'
   const arrowStroke = scenario.securityOverlay ? 4 : 3
-  const activePhiHighlights = showLeak && scenario.leakPhiHighlights
-    ? scenario.leakPhiHighlights
-    : scenario.phiHighlights
+
+  // In interactive mode for consumer, PHI badges show based on user clicks
+  const activePhiHighlights = interactiveMode
+    ? Array.from(clickedPhiTargets)
+    : showLeak && scenario.leakPhiHighlights
+      ? scenario.leakPhiHighlights
+      : scenario.phiHighlights
   const phiSet = new Set(activePhiHighlights)
 
   const phiGlow = (id: string) =>
     phiSet.has(id)
       ? 'drop-shadow(0 0 8px rgba(220, 38, 38, 0.6)) drop-shadow(0 0 16px rgba(220, 38, 38, 0.3))'
       : 'none'
+
+  const clickableStyle = (id: string) =>
+    interactiveMode && !clickedPhiTargets.has(id)
+      ? { cursor: 'pointer' }
+      : interactiveMode && clickedPhiTargets.has(id)
+        ? { cursor: 'default' }
+        : {}
 
   return (
     <div className="w-full">
@@ -117,13 +131,15 @@ export default function SecurityDiagram({ scenario, showLeak = false, onToggleLe
         </g>
 
         {/* ===== QUERY LOG — exact serverrack icon ===== */}
-        <g id="queryLog" style={{ ...grayStyle('queryLog'), filter: phiGlow('queryLog') }}>
+        <g id="queryLog" style={{ ...grayStyle('queryLog'), filter: phiGlow('queryLog'), ...clickableStyle('queryLog') }} onClick={() => onPhiClick?.('queryLog')}>
+          {/* Invisible hit area for click target */}
+          {interactiveMode && <rect x="1430" y="245" width="350" height="120" fill="transparent" style={{ cursor: 'pointer' }} />}
           <path fill="#000000" fillOpacity="0.85" d="M 1536.34082 283.93103 C 1539.804565 283.850525 1542.70459 280.950623 1542.70459 277.527161 C 1542.70459 273.982788 1539.804565 271.042603 1536.34082 271.042603 C 1532.877075 271.042603 1529.896729 273.982788 1529.896729 277.527161 C 1529.896729 280.950623 1532.877075 283.971252 1536.34082 283.93103 Z M 1536.34082 312.728638 C 1539.804565 312.647949 1542.70459 309.748108 1542.70459 306.284363 C 1542.70459 302.780334 1539.804565 299.799805 1536.34082 299.799805 C 1532.877075 299.799805 1529.896729 302.780334 1529.896729 306.284363 C 1529.896729 309.748108 1532.877075 312.768921 1536.34082 312.728638 Z M 1536.34082 341.48584 C 1539.804565 341.445618 1542.70459 338.545715 1542.70459 335.08197 C 1542.70459 331.57782 1539.804565 328.597412 1536.34082 328.597412 C 1532.877075 328.597412 1529.896729 331.57782 1529.896729 335.08197 C 1529.896729 338.545715 1532.877075 341.566345 1536.34082 341.48584 Z M 1558.210938 295.248718 L 1558.210938 288.522522 L 1444.067871 288.522522 L 1444.067871 295.248718 Z M 1558.210938 324.287903 L 1558.210938 317.561646 L 1444.067871 317.561646 L 1444.067871 324.287903 Z M 1455.66748 353.689636 L 1546.329346 353.689636 C 1556.760986 353.689636 1562.037109 348.41333 1562.037109 338.183105 L 1562.037109 274.546631 C 1562.037109 264.276184 1556.760986 259 1546.329346 259 L 1455.66748 259 C 1445.276245 259 1440 264.235901 1440 274.546631 L 1440 338.183105 C 1440 348.493835 1445.276245 353.689636 1455.66748 353.689636 Z M 1455.828613 346.56073 C 1450.189941 346.56073 1447.128906 343.580139 1447.128906 337.780396 L 1447.128906 274.909119 C 1447.128906 269.149597 1450.189941 266.128906 1455.828613 266.128906 L 1546.208618 266.128906 C 1551.72644 266.128906 1554.86792 269.149597 1554.86792 274.909119 L 1554.86792 337.780396 C 1554.86792 343.580139 1551.72644 346.56073 1546.208618 346.56073 Z"/>
           <text xmlSpace="preserve"><tspan x="1613.303711" y="281" fontFamily="Helvetica" fontSize="28" fill="#000000">Query log</tspan><tspan x="1620.966797" y="307" fontFamily="Helvetica" fontSize="18" fill="#000000">(where the AI</tspan><tspan x="1588.961426" y="329" fontFamily="Helvetica" fontSize="18" fill="#000000">company stores what</tspan><tspan x="1612.973145" y="351" fontFamily="Helvetica" fontSize="18" fill="#000000">everyone asks)</tspan></text>
           {phiSet.has('queryLog') && (
             <g>
-              <rect x="1430" y="250" width="40" height="24" rx="6" fill="#dc2626" />
-              <text x="1450" y="267" fontFamily="Helvetica" fontSize="12" fill="white" textAnchor="middle" fontWeight="bold">PHI</text>
+              <rect x="1420" y="240" width="64" height="36" rx="8" fill="#dc2626" />
+              <text x="1452" y="265" fontFamily="Helvetica" fontSize="20" fill="white" textAnchor="middle" fontWeight="bold">PHI</text>
             </g>
           )}
         </g>
@@ -162,7 +178,9 @@ export default function SecurityDiagram({ scenario, showLeak = false, onToggleLe
         </g>
 
         {/* ===== AI KNOWLEDGE — exact mailandtextmagnifyingglass icon ===== */}
-        <g id="knowledge" style={{ filter: phiGlow('knowledge') }}>
+        <g id="knowledge" style={{ filter: phiGlow('knowledge'), ...clickableStyle('knowledge') }} onClick={() => onPhiClick?.('knowledge')}>
+          {/* Invisible hit area for click target */}
+          {interactiveMode && <rect x="1390" y="700" width="210" height="250" fill="transparent" style={{ cursor: 'pointer' }} />}
           <path fill="#000000" fillOpacity="0.85" d="M 1447.820313 793.075684 L 1447.820313 801.032471 C 1447.820313 806.90509 1450.919922 809.923096 1456.588745 809.923096 L 1503.426636 809.923096 L 1510.63623 817.141724 L 1456.466309 817.141724 C 1445.944458 817.141724 1440.561035 811.880615 1440.561035 801.440186 L 1440.561035 787.471313 C 1442.739502 789.620483 1445.170532 791.510132 1447.820313 793.075684 Z M 1564.13269 737.003479 L 1564.13269 801.440186 C 1564.13269 811.799072 1558.831055 817.141724 1548.268433 817.141724 L 1539.453369 817.141724 C 1539.458984 817.101929 1539.459229 817.060547 1539.459229 817.019287 C 1539.459229 814.408813 1538.602417 811.93219 1537.116577 809.923096 L 1548.105225 809.923096 C 1553.692383 809.923096 1556.914307 806.90509 1556.914307 801.032471 L 1556.914307 737.370483 C 1556.914307 731.538574 1553.692383 728.47998 1548.105225 728.47998 L 1498.144653 728.47998 C 1495.217041 725.586182 1491.849365 723.139282 1488.142334 721.261353 L 1548.268433 721.261353 C 1558.831055 721.261353 1564.13269 726.603882 1564.13269 737.003479 Z"/>
           <path fill="#000000" fillOpacity="0.85" d="M 1545.168823 757.19104 C 1545.168823 764.205627 1539.540894 769.833557 1532.607788 769.833557 C 1525.633911 769.833557 1520.005859 764.205627 1520.005859 757.19104 C 1520.005859 750.217163 1525.633911 744.58905 1532.607788 744.58905 C 1539.540894 744.58905 1545.168823 750.217163 1545.168823 757.19104 Z"/>
           <path fill="#000000" fillOpacity="0.85" d="M 1469.272095 799.156494 C 1492.028931 799.156494 1510.544312 780.641113 1510.544312 757.884277 C 1510.544312 735.168335 1492.028931 716.652954 1469.272095 716.652954 C 1446.515381 716.652954 1428 735.168335 1428 757.884277 C 1428 780.641113 1446.515381 799.156494 1469.272095 799.156494 Z M 1469.272095 791.530029 C 1450.715942 791.530029 1435.667114 776.44043 1435.667114 757.884277 C 1435.667114 739.368896 1450.715942 724.279297 1469.272095 724.279297 C 1487.828247 724.279297 1502.917847 739.368896 1502.917847 757.884277 C 1502.917847 776.44043 1487.828247 791.530029 1469.272095 791.530029 Z M 1498.880371 780.559448 L 1490.927734 788.226685 L 1523.594849 820.934448 C 1524.695801 822.035522 1526.041748 822.524902 1527.509888 822.524902 C 1530.731689 822.524902 1532.934082 820.078064 1532.934082 817.019287 C 1532.934082 815.551086 1532.363037 814.164429 1531.425171 813.18573 Z"/>
@@ -170,8 +188,8 @@ export default function SecurityDiagram({ scenario, showLeak = false, onToggleLe
           <text xmlSpace="preserve"><tspan x="1394.43457" y="866" fontFamily="Helvetica" fontSize="28" fill="#000000">AI's Knkowledge</tspan><tspan x="1395.946777" y="892" fontFamily="Helvetica" fontSize="18" fill="#000000">(all of the information that</tspan><tspan x="1425.464844" y="914" fontFamily="Helvetica" fontSize="18" fill="#000000">AI uses to make a</tspan><tspan x="1457.479004" y="936" fontFamily="Helvetica" fontSize="18" fill="#000000">response)</tspan></text>
           {phiSet.has('knowledge') && (
             <g>
-              <rect x="1420" y="700" width="40" height="24" rx="6" fill="#dc2626" />
-              <text x="1440" y="717" fontFamily="Helvetica" fontSize="12" fill="white" textAnchor="middle" fontWeight="bold">PHI</text>
+              <rect x="1410" y="690" width="64" height="36" rx="8" fill="#dc2626" />
+              <text x="1442" y="715" fontFamily="Helvetica" fontSize="20" fill="white" textAnchor="middle" fontWeight="bold">PHI</text>
             </g>
           )}
         </g>
@@ -204,7 +222,9 @@ export default function SecurityDiagram({ scenario, showLeak = false, onToggleLe
         </g>
 
         {/* ===== OUTPUT — exact infocircletextpage + sparkles icons ===== */}
-        <g id="output">
+        <g id="output" style={{ filter: phiGlow('output'), ...clickableStyle('output') }} onClick={() => onPhiClick?.('output')}>
+          {/* Invisible hit area for click target */}
+          {interactiveMode && <rect x="15" y="695" width="175" height="230" fill="transparent" style={{ cursor: 'pointer' }} />}
           {/* sparkles icon */}
           <path fill="#000000" fillOpacity="0.85" d="M 46.172901 716.670898 C 46.563499 716.670898 46.758801 716.426758 46.832001 716.060608 C 47.686501 711.055725 47.6133 710.640686 53.179699 709.712952 C 53.545898 709.664124 53.765598 709.444397 53.765598 709.078186 C 53.765598 708.711975 53.545898 708.467834 53.179699 708.419006 C 47.6133 707.491272 47.686501 707.076233 46.832001 702.07135 C 46.758801 701.705139 46.563499 701.485413 46.172901 701.485413 C 45.7822 701.485413 45.586903 701.705139 45.513702 702.07135 C 44.659203 707.076233 44.732403 707.491272 39.166 708.419006 C 38.799801 708.467834 38.580101 708.711975 38.580101 709.078186 C 38.580101 709.444397 38.799801 709.664124 39.166 709.712952 C 44.732403 710.640686 44.659203 711.055725 45.513702 716.060608 C 45.586903 716.426758 45.7822 716.670898 46.172901 716.670898 Z"/>
           <path fill="#000000" fillOpacity="0.85" d="M 30.816399 738.179688 C 31.304699 738.179688 31.6709 737.837891 31.744099 737.349731 C 32.916 728.902405 33.111301 728.975586 41.8027 727.315491 C 42.266602 727.217773 42.632797 726.900391 42.632797 726.387695 C 42.632797 725.875 42.266602 725.533325 41.8027 725.459961 C 33.111301 724.141602 32.891602 723.970825 31.744099 715.450195 C 31.6709 714.9375 31.304699 714.595825 30.816399 714.595825 C 30.3281 714.595825 29.961899 714.9375 29.888699 715.474731 C 28.790039 723.897461 28.47266 723.799927 19.830078 725.459961 C 19.366211 725.557739 19 725.875 19 726.387695 C 19 726.924927 19.366211 727.217773 19.927734 727.315491 C 28.521481 728.755859 28.790039 728.877991 29.888699 737.300781 C 29.961899 737.837891 30.3281 738.179688 30.816399 738.179688 Z"/>
@@ -212,11 +232,17 @@ export default function SecurityDiagram({ scenario, showLeak = false, onToggleLe
           {/* infocircletextpage icon */}
           <path fill="#000000" fillOpacity="0.85" d="M 110.077942 786.596069 L 147.743622 786.596069 C 149.22789 786.596069 150.341125 785.445557 150.341125 783.998413 C 150.341125 782.551025 149.22789 781.437866 147.743622 781.437866 L 110.077942 781.437866 C 108.556435 781.437866 107.443199 782.551025 107.443199 783.998413 C 107.443199 785.445557 108.556435 786.596069 110.077942 786.596069 Z M 110.077942 801.142761 L 128.075775 801.142761 C 129.560196 801.142761 130.673431 800.029541 130.673431 798.619263 C 130.673431 797.172119 129.560196 796.021606 128.075775 796.021606 L 110.077942 796.021606 C 108.556435 796.021606 107.443199 797.172119 107.443199 798.619263 C 107.443199 800.029541 108.556435 801.142761 110.077942 801.142761 Z M 128.92926 771.195679 C 138.169388 771.195679 145.999451 763.439941 145.999451 754.088623 C 145.999451 744.737061 138.317902 737.055481 128.92926 737.055481 C 119.57785 737.055481 111.896301 744.774109 111.896301 754.088623 C 111.896301 763.51416 119.57785 771.195679 128.92926 771.195679 Z M 124.624657 764.145142 C 123.808273 764.145142 123.288742 763.55127 123.288742 762.734863 C 123.288742 761.881409 123.808273 761.324768 124.624657 761.324768 L 127.927429 761.324768 L 127.927429 754.014282 L 124.661743 754.014282 C 123.808273 754.014282 123.325829 753.531799 123.325829 752.678345 C 123.325829 751.824829 123.808273 751.194092 124.661743 751.194092 L 129.337524 751.194092 C 130.116821 751.194092 130.710526 751.861938 130.710526 752.678345 L 130.710526 761.324768 L 133.605026 761.324768 C 134.421417 761.324768 134.940948 761.918457 134.940948 762.734863 C 134.940948 763.51416 134.421417 764.145142 133.605026 764.145142 Z M 128.817993 747.891296 C 127.370659 747.891296 126.18325 746.703857 126.18325 745.256592 C 126.18325 743.735046 127.370659 742.547607 128.817993 742.547607 C 130.339493 742.547607 131.526901 743.735046 131.526901 745.256592 C 131.526901 746.703857 130.339493 747.891296 128.817993 747.891296 Z M 89 808.564575 C 89 818.138611 93.787056 823 103.286964 823 L 154.386124 823 C 163.886032 823 168.673065 818.138611 168.673065 808.564575 L 168.673065 735.162903 C 168.673065 725.588806 163.886032 720.727539 154.386124 720.727539 L 103.286964 720.727539 C 93.787056 720.727539 89 725.588806 89 735.162903 Z M 95.568298 808.416016 L 95.568298 735.31134 C 95.568298 730.116089 98.314362 727.295776 103.658051 727.295776 L 154.014938 727.295776 C 159.358749 727.295776 162.104752 730.116089 162.104752 735.31134 L 162.104752 808.416016 C 162.104752 813.611328 159.358749 816.431702 154.014938 816.431702 L 103.658051 816.431702 C 98.314362 816.431702 95.568298 813.611328 95.568298 808.416016 Z"/>
           <text xmlSpace="preserve"><tspan x="81.972656" y="861" fontFamily="Helvetica" fontSize="28" fill="#000000">Output</tspan><tspan x="36.95752" y="887" fontFamily="Helvetica" fontSize="18" fill="#000000">(i.e. what you asked it</tspan><tspan x="100.98584" y="909" fontFamily="Helvetica" fontSize="18" fill="#000000">to do)</tspan></text>
+          {phiSet.has('output') && (
+            <g>
+              <rect x="9" y="700" width="64" height="36" rx="8" fill="#dc2626" />
+              <text x="41" y="725" fontFamily="Helvetica" fontSize="20" fill="white" textAnchor="middle" fontWeight="bold">PHI</text>
+            </g>
+          )}
         </g>
       </svg>
 
-      {/* Prompt overlay — in the left margin near "Your prompt" */}
-      {scenario.promptOverlay?.show && (
+      {/* Prompt overlay — in the left margin near "Your prompt" (hidden in interactive mode) */}
+      {scenario.promptOverlay?.show && !interactiveMode && (
         <div className="absolute left-[0.5%] top-[0%] w-[35%] z-10 flex items-start gap-3">
           <div className="w-[52%] shrink-0">
             <p className="text-sm text-hai-dark leading-snug italic">
@@ -255,8 +281,8 @@ export default function SecurityDiagram({ scenario, showLeak = false, onToggleLe
       )}
       </div>
 
-      {/* Response overlay — below diagram (leak scenario only) */}
-      {showLeak && scenario.responseOverlay?.show && (
+      {/* Response overlay — below diagram (leak scenario only, hidden in interactive mode) */}
+      {showLeak && scenario.responseOverlay?.show && !interactiveMode && (
         <div className="w-[18%] -mt-24 ml-[0.5%]">
           <div className="ml-[38%] w-fit my-2">
             <svg width="14" height="48" viewBox="0 0 14 48" fill="none">
