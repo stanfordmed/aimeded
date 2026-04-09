@@ -31,7 +31,7 @@ export const hipaaCards: HipaaCard[] = [
   {
     title: 'Breach Reporting',
     icon: 'alert',
-    content: <>If patient data is accidentally exposed or stolen, <strong>the organization must notify the affected patients within 60 days.</strong> Large breaches (affecting 500 or more people) must also be reported to federal authorities and the media. Penalties for violations can be severe&mdash;up to $1.5 million per year.</>,
+    content: <>If patient data is accidentally exposed or stolen, <strong>the organization must notify the affected patients</strong>. Large breaches (affecting 500 or more people) must also be reported to federal authorities, the media, and can involve hefty fines (and you could be held responsible).</>,
   },
 ]
 
@@ -48,7 +48,7 @@ export const omnibusRule = {
   icon: 'scale' as IconName,
   content: <>HIPAA doesn't just apply to hospitals and clinics. Since 2013, <strong>any outside company that handles patient data</strong> on behalf of a healthcare organization&mdash;called a "Business Associate"&mdash;<strong>is also legally responsible for protecting it.</strong> This includes AI companies, cloud storage providers, and other tech vendors.</>,
   callout:
-    'This means if an AI company mishandles your patients\u2019 data, they can face the same penalties as a hospital would\u2014fines up to $1.5 million per year and even criminal charges. BUT this only applies if your health system has a legal agreement\u2014called a Business Associate Agreement (BAA)\u2014with the AI company.',
+    'This means if an AI company mishandles your patients\u2019 data, they can face the same penalties as you or your health system would. BUT this only applies if your health system has a legal agreement\u2014called a Business Associate Agreement (BAA)\u2014with the AI company.',
 }
 
 export const qaItems: QAItem[] = [

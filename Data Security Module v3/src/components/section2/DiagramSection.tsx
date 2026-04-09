@@ -86,9 +86,9 @@ export default function DiagramSection() {
           {/* Consumer exercise prompt inside scenario card */}
           {activeId === 'consumer' && !allPhiFound && (
             <div className="mt-4 flex items-center gap-3 bg-red-50 border border-red-200 rounded-lg p-3">
-              <span className="text-2xl">🔍</span>
+              <svg className="w-6 h-6 shrink-0 text-red-700" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
               <p className="text-red-800 font-semibold text-sm leading-snug">
-                Click on where in the figure PHI will accumulate if you use a consumer AI tool with sensitive information.
+                What happens if you use a consumer AI chatbot with PHI? <strong>Click on all the spots in the diagram where PHI would accumulate.</strong>
                 <span className="text-red-500 font-normal ml-1">
                   ({clickedPhiTargets.size}/{PHI_TARGETS.length} found)
                 </span>
@@ -96,19 +96,17 @@ export default function DiagramSection() {
             </div>
           )}
           {activeId === 'consumer' && allPhiFound && !showRisks && (
-            <div className="mt-4 flex items-center gap-3 justify-between bg-green-50 border border-green-200 rounded-lg p-3">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">✅</span>
-                <p className="text-green-800 font-semibold text-sm">
-                  You found all 3 places where PHI accumulates!
-                </p>
-              </div>
-              <button
-                onClick={() => setShowRisks(true)}
-                className="bg-red-600 hover:bg-red-700 text-white font-semibold px-5 py-2 rounded-lg shadow-md transition-all cursor-pointer text-sm whitespace-nowrap"
-              >
-                How can this go wrong? →
-              </button>
+            <div className="mt-4 flex items-center gap-3 bg-green-50 border border-green-200 rounded-lg p-3">
+              <svg className="w-5 h-5 shrink-0 text-green-700" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+              <p className="text-green-800 text-sm">
+                Great job! Now,{' '}
+                <button
+                  onClick={() => setShowRisks(true)}
+                  className="underline underline-offset-2 font-semibold hover:text-green-900 cursor-pointer transition-colors"
+                >
+                  see how this would compromise patient privacy →
+                </button>
+              </p>
             </div>
           )}
 
@@ -118,28 +116,23 @@ export default function DiagramSection() {
               <h4 className="font-serif font-bold text-lg text-red-700">How can this go wrong?</h4>
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-red-600">⚠️</span>
+                  <svg className="w-5 h-5 shrink-0 text-red-600" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                   <span className="font-semibold text-hai-dark">PHI leaking into other users' responses</span>
                 </div>
                 <p className="text-hai-slate leading-relaxed text-sm">
-                  When you include PHI in a prompt to a consumer AI tool, that information can be incorporated
-                  into the AI's knowledge base. Later, when a completely different person asks a similar clinical
-                  question, the AI's response may contain elements of the PHI from your original prompt — such as
-                  age ranges, lab values, or other identifying details. The other user has no idea they are
-                  receiving information derived from a real patient's data, and you have no way to retract it.
+                  PHI entered into the chatbot can be absorbed into its knowledge base and later surface in other responses. <strong>This means that someone else using the chatbot might get a response that has leaked details like age ranges, lab values, or diagnoses from your patient without either party knowing.</strong>
                 </p>
               </div>
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-red-600">🔓</span>
+                  <svg className="w-5 h-5 shrink-0 text-red-600" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
                   <span className="font-semibold text-hai-dark">Data breach exposing stored prompts</span>
                 </div>
                 <p className="text-hai-slate leading-relaxed text-sm">
                   AI companies store all prompts in query logs on their servers. If the company experiences a
-                  data breach — i.e., they get hacked into — all previous prompts that included PHI could be
-                  leaked to the attacker. This means patient names, MRNs, diagnoses, lab values, and other
-                  sensitive information you entered could be exposed to malicious actors, resulting in a
-                  HIPAA violation and potential harm to patients whose data was compromised.
+                  data breach — i.e., they get hacked into — <strong>all previous prompts that included PHI could be
+                  leaked to the attacker.</strong> This means patient names, MRNs, diagnoses, lab values, and other
+                  sensitive information you entered could be exposed to malicious actors.
                 </p>
               </div>
             </div>
