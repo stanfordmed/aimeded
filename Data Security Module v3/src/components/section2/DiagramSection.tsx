@@ -120,7 +120,7 @@ export default function DiagramSection() {
                   <span className="font-semibold text-hai-dark">PHI leaking into other users' responses</span>
                 </div>
                 <p className="text-hai-slate leading-relaxed text-sm">
-                  PHI entered into the chatbot can be absorbed into its knowledge base and later surface in other responses. <strong>This means that someone else using the chatbot might get a response that has leaked details like age ranges, lab values, or diagnoses from your patient without either party knowing.</strong>
+                  PHI entered into the chatbot can be absorbed into its knowledge base and later surface in other responses. <strong>This means that someone else using the chatbot might get a response that has leaked details about your patient like age ranges, lab values, or diagnoses without either party knowing.</strong>
                 </p>
               </div>
               <div>
