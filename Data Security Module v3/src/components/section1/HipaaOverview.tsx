@@ -61,7 +61,7 @@ function QACard({ question, answer, icon }: { question: string; answer: ReactNod
     <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full text-left p-6 flex items-start gap-4 hover:bg-gray-50 transition-colors cursor-pointer"
+        className="w-full text-left p-6 flex items-start gap-4 transition-colors cursor-pointer"
         aria-expanded={open}
       >
         {icon && (
@@ -71,7 +71,7 @@ function QACard({ question, answer, icon }: { question: string; answer: ReactNod
           {question}
         </span>
         <span
-          className={`text-hai-blue text-xl transition-transform duration-200 shrink-0 ${
+          className={`text-hai-blue text-xl transition-all duration-200 shrink-0 rounded-full w-8 h-8 flex items-center justify-center border-2 border-hai-blue bg-blue-50 hover:bg-hai-blue hover:text-white ${
             open ? 'rotate-180' : ''
           }`}
         >
@@ -121,13 +121,13 @@ function YesNoQACard({
             <div className="flex gap-2">
               <button
                 onClick={() => setSelected('yes')}
-                className="px-4 py-1 rounded-full border border-gray-300 text-hai-slate text-xs font-semibold hover:bg-green-50 hover:border-green-400 hover:text-green-700 transition-colors cursor-pointer"
+                className="px-4 py-1 rounded-full border border-hai-blue bg-blue-50 text-hai-blue text-xs font-semibold hover:bg-hai-blue hover:text-white transition-colors cursor-pointer"
               >
                 Yes
               </button>
               <button
                 onClick={() => setSelected('no')}
-                className="px-4 py-1 rounded-full border border-gray-300 text-hai-slate text-xs font-semibold hover:bg-red-50 hover:border-red-400 hover:text-red-700 transition-colors cursor-pointer"
+                className="px-4 py-1 rounded-full border border-hai-blue bg-blue-50 text-hai-blue text-xs font-semibold hover:bg-hai-blue hover:text-white transition-colors cursor-pointer"
               >
                 No
               </button>

@@ -19,6 +19,7 @@ const phiIdentifiers = [
   { label: 'Biometric IDs', icon: '🖐' },
   { label: 'Photos (full face)', icon: '📷' },
   { label: 'Any unique ID/code', icon: '🆔' },
+  { label: 'Any other uniquely identifying characteristic', icon: '🔎' },
 ]
 
 interface PhiSpan {
@@ -91,9 +92,7 @@ const excerpts: Excerpt[] = [
       { text: 'ACCT-991204', isPhi: true, phiType: 'Account number' },
       { text: ', performed on ', isPhi: false },
       { text: 'January 15', isPhi: true, phiType: 'Date' },
-      { text: '. Findings: 2.3 cm mass in the right hepatic lobe, recommend MRI for further characterization. Device serial: ', isPhi: false },
-      { text: 'CT-SN-8834X', isPhi: true, phiType: 'Device identifier' },
-      { text: '.', isPhi: false },
+      { text: '. Findings: 2.3 cm mass in the right hepatic lobe, recommend MRI for further characterization.', isPhi: false },
     ],
   },
   {
@@ -104,9 +103,7 @@ const excerpts: Excerpt[] = [
       { text: 'Linda Okafor', isPhi: true, phiType: 'Name' },
       { text: ' from IP address ', isPhi: false },
       { text: '192.168.42.107', isPhi: true, phiType: 'IP address' },
-      { text: '. Patient reports improved mood on current SSRI regimen. License number: ', isPhi: false },
-      { text: 'RN-2847561', isPhi: true, phiType: 'License number' },
-      { text: '. Next appointment scheduled for ', isPhi: false },
+      { text: '. Patient reports improved mood on current SSRI regimen. Next appointment scheduled for ', isPhi: false },
       { text: 'March 3rd', isPhi: true, phiType: 'Date' },
       { text: '.', isPhi: false },
     ],
@@ -124,6 +121,15 @@ const excerpts: Excerpt[] = [
       { text: '. Patient portal: ', isPhi: false },
       { text: 'https://mychart.hospital.org/patient/dnakamura', isPhi: true, phiType: 'URL' },
       { text: '.', isPhi: false },
+    ],
+  },
+  {
+    id: 'e7',
+    context: 'Orthopedic consultation note',
+    spans: [
+      { text: 'Patient is a 58-year-old male presenting with right knee pain. He reports the pain started ', isPhi: false },
+      { text: 'while walking up to the podium to accept an award as the local chief of police', isPhi: true, phiType: 'Uniquely identifying characteristic' },
+      { text: '. Exam reveals moderate effusion and limited ROM. Plan: MRI of the right knee, start physical therapy.', isPhi: false },
     ],
   },
 ]
