@@ -39,8 +39,8 @@ function App() {
           <p className="text-xl md:text-2xl text-white/80 max-w-2xl mx-auto leading-relaxed">
             How patient privacy is becoming more relevant in the age of AI
           </p>
-          <p className="text-sm text-white/40 mt-6">
-            Created with care by this awesome team:
+          <p className="text-base text-white/70 mt-6">
+            Aydin Zahedivash, MD, MBA &middot; Vishnu Ravi, MD &middot; Jonathan Chen, MD, PhD
           </p>
         </div>
       </section>
