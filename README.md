@@ -2,7 +2,7 @@
 
 # Stanford AI in Medical Education Open-Access Tools
 
-Interactive learning modules from the [Stanford Medicine AI in Medical Education](https://med.stanford.edu/ai-in-meded.html) program. Deployed to GitHub Pages at [stanfordmed.github.io/aimeded](https://stanfordmed.github.io/aimeded/).
+Interactive learning modules from the [Stanford Medicine AI in Medical Education](https://med.stanford.edu/ai-in-meded.html) program. Deployed to GitHub Pages at [stanfordmed.github.io/aimeded](https://stanfordmed.github.io/aimeded/). If you're an educator or have ideas for how to make these modules better, please make a pull request and we'd love to hear from you. 
 
 ## Modules
 
