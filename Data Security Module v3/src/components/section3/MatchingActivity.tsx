@@ -32,6 +32,7 @@ interface Excerpt {
   id: string
   context: string
   spans: PhiSpan[]
+  explanation: string
 }
 
 const excerpts: Excerpt[] = [
@@ -43,30 +44,26 @@ const excerpts: Excerpt[] = [
       { text: 'Maria Gonzalez', isPhi: true, phiType: 'Name' },
       { text: ', DOB ', isPhi: false },
       { text: '03/14/1962', isPhi: true, phiType: 'Date' },
-      { text: ', presented to the ED at ', isPhi: false },
-      { text: 'Springfield Memorial Hospital', isPhi: false },
-      { text: ' with chest pain. MRN ', isPhi: false },
+      { text: ', presented to the ED at Springfield Memorial Hospital with chest pain. MRN ', isPhi: false },
       { text: '00482917', isPhi: true, phiType: 'Medical record number' },
-      { text: '. EKG showed ST elevation in leads II, III, and aVF. Cardiology consulted.', isPhi: false },
+      { text: '. EKG showed ST elevation in leads II, III, and aVF. Dr. Sarah Mitchell consulted; clinic callback: (541) 555-0300.', isPhi: false },
     ],
-  },
-  {
-    id: 'e2',
-    context: 'Referral letter',
-    spans: [
-      { text: 'I am referring ', isPhi: false },
-      { text: 'James Chen', isPhi: true, phiType: 'Name' },
-      { text: ', a 45-year-old male residing at ', isPhi: false },
-      { text: '742 Evergreen Terrace, Apt 3B, Portland, OR 97201', isPhi: true, phiType: 'Address' },
-      { text: ', for evaluation of persistent lower back pain. He can be reached at ', isPhi: false },
-      { text: '(503) 555-0187', isPhi: true, phiType: 'Phone number' },
-      { text: '. Insurance ID: ', isPhi: false },
-      { text: 'BC-8847231', isPhi: true, phiType: 'Health plan ID' },
-      { text: '.', isPhi: false },
-    ],
+    explanation: 'The patient\'s name, date of birth, and medical record number directly identify the individual and are PHI. The hospital name, doctor\'s name, clinic phone number, and clinical findings (EKG results) identify the health system — not the patient — and are not PHI.',
   },
   {
     id: 'e3',
+    context: 'Oncology note',
+    spans: [
+      { text: 'Patient ', isPhi: false },
+      { text: 'Susan Park', isPhi: true, phiType: 'Name' },
+      { text: ', DOB ', isPhi: false },
+      { text: '05/18/1971', isPhi: true, phiType: 'Date' },
+      { text: ', recently diagnosed with pancreatic cancer. CA 19-9 elevated at 3,531. Electing to begin chemotherapy with FOLFIRINOX with Dr. Ramirez.', isPhi: false },
+    ],
+    explanation: 'The patient\'s name and date of birth are PHI. Diagnoses, lab values (CA 19-9), and treatment plans (FOLFIRINOX) are clinical data and usually not referred to as PHI. The referring physician\'s name is not PHI.',
+  },
+  {
+    id: 'e4',
     context: 'Discharge summary',
     spans: [
       { text: 'Discharged ', isPhi: false },
@@ -81,32 +78,17 @@ const excerpts: Excerpt[] = [
       { text: 'aisha.patel@email.com', isPhi: true, phiType: 'Email' },
       { text: '.', isPhi: false },
     ],
-  },
-  {
-    id: 'e4',
-    context: 'Radiology report',
-    spans: [
-      { text: 'CT scan of the abdomen for ', isPhi: false },
-      { text: 'Robert Williams', isPhi: true, phiType: 'Name' },
-      { text: ', account number ', isPhi: false },
-      { text: 'ACCT-991204', isPhi: true, phiType: 'Account number' },
-      { text: ', performed on ', isPhi: false },
-      { text: 'January 15', isPhi: true, phiType: 'Date' },
-      { text: '. Findings: 2.3 cm mass in the right hepatic lobe, recommend MRI for further characterization.', isPhi: false },
-    ],
+    explanation: 'Ages over 89 are PHI under HIPAA because so few people reach that age — it makes them easier to identify. The name, date of service, partial SSN, and email are all direct identifiers. Note that this date isn\'t a DOB; specific dates of service are considered PHI.',
   },
   {
     id: 'e5',
-    context: 'Telemedicine visit note',
+    context: 'Primary care visit note',
     spans: [
-      { text: 'Conducted video visit with ', isPhi: false },
-      { text: 'Linda Okafor', isPhi: true, phiType: 'Name' },
-      { text: ' from IP address ', isPhi: false },
-      { text: '192.168.42.107', isPhi: true, phiType: 'IP address' },
-      { text: '. Patient reports improved mood on current SSRI regimen. Next appointment scheduled for ', isPhi: false },
-      { text: 'March 3rd', isPhi: true, phiType: 'Date' },
-      { text: '.', isPhi: false },
+      { text: 'A 47-year-old male presents with Type 2 diabetes, well-controlled on metformin. A1c 6.8%. Follow-up with Dr. Hernandez in 3 months. Given his zip code is ', isPhi: false },
+      { text: '94305', isPhi: true, phiType: 'ZIP code (geographic)' },
+      { text: ', will refer to Santa Clara core services center.', isPhi: false },
     ],
+    explanation: 'ZIP codes are geographic identifiers under HIPAA — even without a street address, a ZIP code narrows down where someone lives and can help re-identify them. The age (under 90), diagnosis, lab values, and doctor\'s name are not PHI identifiers.',
   },
   {
     id: 'e6',
@@ -122,6 +104,7 @@ const excerpts: Excerpt[] = [
       { text: 'https://mychart.hospital.org/patient/dnakamura', isPhi: true, phiType: 'URL' },
       { text: '.', isPhi: false },
     ],
+    explanation: 'The patient\'s name, DOB, personal fax number, and patient portal URL (which contains the patient\'s username) are all identifiers. The lab values themselves are clinical data, not PHI identifiers.',
   },
   {
     id: 'e7',
@@ -131,6 +114,7 @@ const excerpts: Excerpt[] = [
       { text: 'while walking up to the podium to accept an award as the local chief of police', isPhi: true, phiType: 'Uniquely identifying characteristic' },
       { text: '. Exam reveals moderate effusion and limited ROM. Plan: MRI of the right knee, start physical therapy.', isPhi: false },
     ],
+    explanation: 'HIPAA\'s 18th identifier is "any other unique identifying characteristic." Describing someone as the local chief of police accepting an award makes them easily identifiable even without a name.',
   },
 ]
 
@@ -191,11 +175,16 @@ function ExcerptCard({ excerpt }: { excerpt: Excerpt }) {
         )}
       </p>
       {allFound && (
-        <div className="mt-3 flex items-center gap-2 text-green-700 text-sm font-semibold">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-            <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm3.78 5.22a.75.75 0 0 0-1.06 0L7 8.94 5.28 7.22a.75.75 0 1 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.06 0l4.25-4.25a.75.75 0 0 0 0-1.06z" />
-          </svg>
-          All PHI identified!
+        <div className="mt-3 space-y-2">
+          <div className="flex items-center gap-2 text-green-700 text-sm font-semibold">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm3.78 5.22a.75.75 0 0 0-1.06 0L7 8.94 5.28 7.22a.75.75 0 1 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.06 0l4.25-4.25a.75.75 0 0 0 0-1.06z" />
+            </svg>
+            All PHI identified!
+          </div>
+          <p className="text-hai-slate text-sm leading-relaxed bg-hai-warm-gray rounded-lg p-3">
+            {excerpt.explanation}
+          </p>
         </div>
       )}
     </div>
