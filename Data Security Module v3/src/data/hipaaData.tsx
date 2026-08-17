@@ -60,7 +60,7 @@ export const qaItems: QAItem[] = [
   },
   {
     question:
-      'Then why can my patients use ChatGPT or Google to ask about their health questions? What makes my use of these tools different?',
+      'Then why can my patients enter their PHI into Google or ChatGPT to ask about their health questions? What makes my use of these tools different?',
     answer:
       <>Great question. HIPAA only governs how healthcare providers and organizations handle patient data&mdash;it doesn&rsquo;t apply to patients themselves. Your patients are free to Google their symptoms, ask ChatGPT about their medications, or share their health information however they want. That said, even though it may not violate any laws, patients should still be thoughtful about how much of their private health information they share with a big tech company. <strong>That&rsquo;s their choice. But when you type a patient&rsquo;s information into a tool, you&rsquo;re acting as the custodian of their data.</strong> You have a legal duty to make sure it&rsquo;s only shared through approved, secure channels. The same information typed by a patient is their personal choice; typed by you, it could be a HIPAA violation.</>,
   },

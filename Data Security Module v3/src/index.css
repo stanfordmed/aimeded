@@ -12,12 +12,21 @@
   --color-arrow-blue: #0376BB;
 
   --font-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Source Serif 4", ui-serif, Georgia, serif;
+  /* Heading face. Named `serif` for continuity with the existing `font-serif`
+     utility used across the app, but it now resolves to a geometric sans to
+     match hai.stanford.edu, which sets headings in Circular. DM Sans stands in
+     for Circular, which is commercially licensed and can't be redistributed. */
+  --font-serif: "DM Sans", ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
+  }
+  /* HAI sets headings with tight optical tracking (-0.035em). Declared in the
+     base layer so component-level `tracking-*` utilities still win. */
+  .font-serif {
+    letter-spacing: -0.035em;
   }
   body {
     font-family: var(--font-sans);

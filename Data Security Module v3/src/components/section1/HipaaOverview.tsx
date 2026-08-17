@@ -65,7 +65,7 @@ function QACard({ question, answer, icon }: { question: string; answer: ReactNod
         aria-expanded={open}
       >
         {icon && (
-          <span className="shrink-0 w-20 flex justify-center mt-0.5">{icon}</span>
+          <span className="hidden md:flex shrink-0 w-20 justify-center mt-0.5">{icon}</span>
         )}
         <span className="font-serif font-bold text-lg text-hai-dark leading-snug flex-1">
           {question}
@@ -79,13 +79,15 @@ function QACard({ question, answer, icon }: { question: string; answer: ReactNod
         </span>
       </button>
       <div
-        className={`overflow-hidden transition-all duration-300 ${
-          open ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+        className={`grid transition-all duration-300 ease-in-out ${
+          open ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
         }`}
       >
-        <div className="px-6 pb-6 pl-[6.5rem]">
-          <div className="bg-hai-warm-gray rounded-lg p-5">
-            <p className="text-hai-slate leading-relaxed">{answer}</p>
+        <div className="min-h-0 overflow-hidden">
+          <div className="px-6 pb-6 md:pl-[6.5rem]">
+            <div className="bg-hai-warm-gray rounded-lg p-5">
+              <p className="text-hai-slate leading-relaxed">{answer}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -111,7 +113,7 @@ function YesNoQACard({
     <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
       <div className="p-6 flex items-start gap-4">
         {icon && (
-          <span className="shrink-0 w-20 flex justify-center mt-0.5">{icon}</span>
+          <span className="hidden md:flex shrink-0 w-20 justify-center mt-0.5">{icon}</span>
         )}
         <div className="flex-1">
           <p className="font-serif font-bold text-lg text-hai-dark leading-snug mb-4">
