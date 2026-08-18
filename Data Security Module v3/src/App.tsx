@@ -36,7 +36,7 @@ function App() {
     <div className="min-h-screen">
       <Header activeSection={activeSection} />
 
-      <section className="bg-hai-blue text-white py-12 md:py-16 px-6">
+      <section className="bg-hai-blue text-white py-8 md:py-10 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
             Data Security, Privacy &amp; AI
