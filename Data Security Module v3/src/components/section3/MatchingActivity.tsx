@@ -193,7 +193,7 @@ function ExcerptCard({ excerpt }: { excerpt: Excerpt }) {
 
 export default function MatchingActivity() {
   return (
-    <section className="py-16 md:py-24 px-6">
+    <section className="py-10 md:py-14 px-6">
       <div className="max-w-5xl mx-auto">
         <p className="text-hai-blue uppercase tracking-widest text-sm font-semibold mb-3">
           Section 3

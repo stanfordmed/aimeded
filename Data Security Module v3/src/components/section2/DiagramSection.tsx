@@ -17,6 +17,7 @@ const activeTabStyles: Record<ScenarioId, string> = {
 
 const PHI_TARGETS = ['queryLog', 'knowledge', 'output'] as const
 
+
 export default function DiagramSection() {
   const [activeId, setActiveId] = useState<ScenarioId>('consumer')
   const [showLeak, setShowLeak] = useState(false)
@@ -43,7 +44,7 @@ export default function DiagramSection() {
   }
 
   return (
-    <section className="py-16 md:py-24 px-6 bg-hai-warm-gray">
+    <section className="py-10 md:py-14 px-6 bg-hai-warm-gray">
       <div className="max-w-6xl mx-auto">
         <p className="text-hai-blue uppercase tracking-widest text-sm font-semibold mb-3">
           Section 2
@@ -151,6 +152,36 @@ export default function DiagramSection() {
           />
         </div>
 
+        {/* Stanford-specific guidance */}
+        <div className="mt-8 bg-white rounded-xl border border-gray-200 p-6 md:p-8">
+          <p className="text-hai-blue uppercase tracking-widest text-xs font-semibold mb-2">
+            For Stanford Affiliates
+          </p>
+          <h3 className="font-serif font-bold text-xl text-hai-dark mb-2">
+            Which tools can I use?
+          </h3>
+          <p className="text-hai-slate leading-relaxed max-w-3xl">
+            The scenarios above are general. To learn more, you can find out{' '}
+            <a
+              href="https://uit.stanford.edu/guide/riskclassifications"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-hai-blue font-semibold underline underline-offset-2 hover:text-hai-blue-dark transition-colors"
+            >
+              how high risk a certain piece of data is
+            </a>
+            , and you can visit the{' '}
+            <a
+              href="https://uit.stanford.edu/ai/services"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-hai-blue font-semibold underline underline-offset-2 hover:text-hai-blue-dark transition-colors"
+            >
+              list of Stanford-approved AI services
+            </a>
+            .
+          </p>
+        </div>
 
       </div>
     </section>
